@@ -25,9 +25,9 @@ var notify = require('gulp-notify');
         // copy
         gulp.task('copy', function () {
             return mergeStream(
-            gulp.src('./imgs/**/*')
+            gulp.src('./img/icons/*.png')
             .pipe(gulp.dest('dist/img')),
-            gulp.src('./*.{txt,json,md,js}')
+            gulp.src('./*.{txt,json,md,js}*')
             .pipe(gulp.dest('./dist'))
             .pipe(notify({ message: 'Copy task complete' })));
           });
@@ -41,8 +41,8 @@ var notify = require('gulp-notify');
             .pipe(notify({ message: 'Imagemin task complete' }));
         });
         // styles watch
-        gulp.task('Styles:watch', function () {
-        gulp.watch('./css/*.css', ['css']);
+        gulp.task('Styles:Watch', function () {
+            gulp.watch('./css/*.css', ['css']);
         });
 
         // javascript files
@@ -72,7 +72,7 @@ var notify = require('gulp-notify');
         
         // Default task
         gulp.task('default', ['browser-sync'], function() {
-            gulp.start('styles:watch');
+            gulp.start('Styles:Watch');
         });
 
         // clean

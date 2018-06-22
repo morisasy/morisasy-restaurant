@@ -41,7 +41,7 @@ var gulp = require('gulp'),
         });
         // styles watch
         gulp.task('Styles:watch', function () {
-        gulp.watch('./css/*.css', ['css']);
+            gulp.watch('./css/*.css', ['css']);
         });
         
         // browser-sync
