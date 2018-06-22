@@ -3,6 +3,7 @@
 var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     autoprefixer = require('gulp-autoprefixer'),
+    
     del = require('del'),
     browserSync = require('browser-sync'),
     uglify = require('gulp-uglify'),
@@ -12,14 +13,11 @@ var gulp = require('gulp'),
     flatmap = require('gulp-flatmap'),
     htmlmin = require('gulp-htmlmin'),
     mergeStream = require('merge-stream');
-var concat = require('gulp-concat');
-var notify = require('gulp-notify');
         // styles
         gulp.task('styles', function () {
         return gulp.src('./css/*.css')
                 .pipe(autoprefixer('last 2 version'))
-                .pipe(gulp.dest('./dist/css'))
-                .pipe(notify({ message: 'Styles task complete' }));
+                .pipe(gulp.dest('./dist/css'));
         });
 
         // copy
@@ -27,31 +25,24 @@ var notify = require('gulp-notify');
             return mergeStream(
             gulp.src('./imgs/**/*')
             .pipe(gulp.dest('dist/img')),
-            gulp.src('./*.{txt,json,md,js}')
+            gulp.src('./img/icon/*')
+            .pipe(gulp.dest('/dist/img/icon')),
+            gulp.src('./*.{txt,json,md}')
             .pipe(gulp.dest('./dist'))
-            .pipe(notify({ message: 'Copy task complete' })));
+            );
           });
        
             
         // Images
         gulp.task('imagemin', function() {
-            return gulp.src('img/**/*.{png,jpg,gif}')
+            return gulp.src('img/*.{png,jpg,gif}')
             .pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
-            .pipe(gulp.dest('./dist/img'))
-            .pipe(notify({ message: 'Imagemin task complete' }));
+            .pipe(gulp.dest('dist/img'));
         });
         // styles watch
         gulp.task('Styles:watch', function () {
         gulp.watch('./css/*.css', ['css']);
         });
-
-        // javascript files
-        gulp.task('js', function(){
-            gulp.src('./js/**/*.js')
-            .pipe(gulp.dest('./dist/js'))
-            .pipe(notify({ message: 'Javascript task complete' }));
-         });
-         
         
         // browser-sync
         gulp.task('browser-sync', function () {
@@ -97,5 +88,5 @@ var notify = require('gulp-notify');
           });
           
           gulp.task('build',['clean'], function() {
-              gulp.start('copy','imagemin','js','usemin');
+              gulp.start('copy','imagemin','usemin');
           });
