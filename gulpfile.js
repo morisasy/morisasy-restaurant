@@ -40,10 +40,7 @@ var notify = require('gulp-notify');
             .pipe(gulp.dest('./dist/img'))
             .pipe(notify({ message: 'Imagemin task complete' }));
         });
-        // styles watch
-        gulp.task('Styles:Watch', function () {
-            gulp.watch('./css/*.css', ['css']);
-        });
+        
 
         // javascript files
         gulp.task('js', function(){
@@ -51,6 +48,19 @@ var notify = require('gulp-notify');
             .pipe(gulp.dest('./dist/js'))
             .pipe(notify({ message: 'Javascript task complete' }));
          });
+
+         gulp.task('scripts', function() {
+            gulp.src('./js/**/*.js')
+                .pipe(concat('all.js'))
+                .pipe(gulp.dest('dist/js'));
+        });
+        
+        gulp.task('scripts-dist', function() {
+            gulp.src('js/**/*.js')
+                .pipe(concat('all.js'))
+                .pipe(uglify())
+                .pipe(gulp.dest('dist/js'));
+        });
          
         
         // browser-sync
@@ -69,11 +79,7 @@ var notify = require('gulp-notify');
             });
         
         });
-        
-        // Default task
-        gulp.task('default', ['browser-sync'], function() {
-            gulp.start('Styles:Watch');
-        });
+       
 
         // clean
         gulp.task('clean', function() {
@@ -96,6 +102,18 @@ var notify = require('gulp-notify');
               .pipe(gulp.dest('dist/'));
           });
           
-          gulp.task('build',['clean'], function() {
+           
+        // Default task
+        gulp.task('default', ['browser-sync'], function() {
+            gulp.start('watch');
+        });
+
+        gulp.task('build',['clean'], function() {
               gulp.start('copy','imagemin','js','usemin');
-          });
+         });
+         // styles watch
+        gulp.task('watch', function () {
+            gulp.watch('./css/*.css', ['styles']);
+            gulp.watch('./js/*.js', ['js']);
+            gulp.watch('./img/*.jpg', ['js']);
+        });
