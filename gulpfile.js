@@ -11,9 +11,9 @@ var gulp = require('gulp'),
     cleanCss = require('gulp-clean-css'),
     flatmap = require('gulp-flatmap'),
     htmlmin = require('gulp-htmlmin'),
-    mergeStream = require('merge-stream');
-var concat = require('gulp-concat');
-var notify = require('gulp-notify');
+    mergeStream = require('merge-stream'),
+    concat = require('gulp-concat'),
+    notify = require('gulp-notify');
         // styles
         gulp.task('styles', function () {
         return gulp.src('./css/*.css')
@@ -25,11 +25,18 @@ var notify = require('gulp-notify');
         // copy
         gulp.task('copy', function () {
             return mergeStream(
-            gulp.src('./img/icons/*.png')
-            .pipe(gulp.dest('dist/img')),
-            gulp.src('./*.{txt,json,md,js}*')
-            .pipe(gulp.dest('./dist'))
-            .pipe(notify({ message: 'Copy task complete' })));
+                gulp.src('./img/icons/*.png')
+                    .pipe(gulp.dest('dist/img')),
+                gulp.src('./*.{txt,json,md,js}')
+                    .pipe(gulp.dest('./dist'))
+                        .pipe(notify({ message: 'Copy task complete' })));
+          });
+
+        // html task
+        gulp.task('html', function() {
+            return gulp.src('./*.html')
+                    .pipe(gulp.dest('./dist'))
+                    .pipe(notify({ message: 'html task complete' }));
           });
        
             
@@ -44,22 +51,23 @@ var notify = require('gulp-notify');
 
         // javascript files
         gulp.task('js', function(){
-            gulp.src('./js/**/*.js')
-            .pipe(gulp.dest('./dist/js'))
-            .pipe(notify({ message: 'Javascript task complete' }));
+            return gulp.src('./js/**/*.js')
+                    .pipe(gulp.dest('./dist/js'))
+                    .pipe(notify({ message: 'Javascript task complete' }));
          });
 
-         gulp.task('scripts', function() {
-            gulp.src('./js/**/*.js')
-                .pipe(concat('all.js'))
-                .pipe(gulp.dest('dist/js'));
+        gulp.task('scripts', function() {
+           return gulp.src('./js/**/*.js')
+                        .pipe(concat('all.js'))
+                        .pipe(gulp.dest('dist/js'))
+                        .pipe(notify({ message: 'Scripts task complete' }));
         });
-        
-        gulp.task('scripts-dist', function() {
-            gulp.src('js/**/*.js')
-                .pipe(concat('all.js'))
-                .pipe(uglify())
-                .pipe(gulp.dest('dist/js'));
+        // minify js files 
+        gulp.task('minify', function() {
+            return gulp.src('js/**/*.js')
+                    .pipe(uglify())
+                    .pipe(gulp.dest('dist/js'))
+                    .pipe(notify({ message: 'Minify task complete' }));
         });
          
         
@@ -86,7 +94,7 @@ var notify = require('gulp-notify');
             return del(['dist']);
         });
         
-
+        //usemin there're some errors on the usemin task
         gulp.task('usemin', function() {
             return gulp.src('./*.html')
             .pipe(flatmap(function(stream, file){
@@ -108,12 +116,29 @@ var notify = require('gulp-notify');
             gulp.start('watch');
         });
 
+        /*
+        gulp.task('default', ['clean'], function() {
+            gulp.start('styles', 'js', 'images');
+        });
+
+        */
+
+        // build task #usemin
         gulp.task('build',['clean'], function() {
-              gulp.start('copy','imagemin','js','usemin');
+              gulp.start('copy','imagemin','js', 'html','styles');
          });
          // styles watch
         gulp.task('watch', function () {
+            //  Watch .css files
             gulp.watch('./css/*.css', ['styles']);
+
+            // Watch js files
             gulp.watch('./js/*.js', ['js']);
+
+            // Watch img files
             gulp.watch('./img/*.jpg', ['js']);
+
+            // Watch html files
+             // Watch img files
+             gulp.watch('./*.html', ['html']);
         });
