@@ -15,7 +15,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 *, *::after, *::before {
   box-sizing: border-box;
 }
-
+map,
 img, 
 embed,
 object,
