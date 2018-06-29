@@ -19,7 +19,8 @@ var CACHE_URLS = [
           '/img/7.jpg',
           '/img/8.jpg',
           '/img/9.jpg',
-          '/img/10.jpg'
+          '/img/10.jpg',
+          '/manifest.json'
 ];
 
 self.addEventListener('install', function (event) {
@@ -56,4 +57,8 @@ self.addEventListener('activate', function(event) {
     );
   });
 
- 
+
+
+
+
+

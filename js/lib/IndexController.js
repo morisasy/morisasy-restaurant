@@ -1,41 +1,4 @@
 
-/*
-
-import idb from 'idb';
-
-var openDatabase= function openDB() {
-
- 
-  return idb.open('dbRestaurant-static-1', 1, function(upgradeDb) {
-    var store = upgradeDb.createObjectStore('restaurantsDB', {
-      keyPath: 'id'
-    });
-    store.createIndex('by-date', 'time');
-    console.log('idb implemented');
-  });
-};
-
-function openDatabase() {
-  // If the browser doesn't support service worker,
-  // we don't care about having a database
-  if (!navigator.serviceWorker) {
-    return Promise.resolve();
-  }
-
-  return idb.open('dbRestaurant-static', 1, function(upgradeDb) {
-    var store = upgradeDb.createObjectStore('restaurants', {
-      keyPath: 'id'
-    });
-    store.createIndex('by-date', 'time');
-  });
-}
-
-
-
-
-*/
-
-
 
 let restaurantsJSON,
 request,

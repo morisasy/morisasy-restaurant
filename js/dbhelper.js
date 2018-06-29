@@ -1,7 +1,16 @@
 /**
  * Common database helper functions.
  */
-class DBHelper {
+
+
+
+ class DBHelper {
+ /** constructor(){
+    this._dbPromise = openDatabase();
+  }
+  */
+ 
+  
 
   /**
    * python3 -m http.server 3500

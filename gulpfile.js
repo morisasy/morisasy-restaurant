@@ -13,8 +13,9 @@ var gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
     mergeStream = require('merge-stream'),
     concat = require('gulp-concat'),
+    sourcemaps = require('gulp-sourcemaps'),
     notify = require('gulp-notify');
-var  rename = require('gulp-rename');
+
         // styles
         gulp.task('styles', function () {
         return gulp.src('./css/*.css')
