@@ -66,9 +66,9 @@ var gulp = require('gulp'),
         });
         // minify js files 
         gulp.task('minify', function() {
-            return gulp.src('js/**/*.js')
+            return gulp.src('./css/*.js')
                     .pipe(uglify())
-                    .pipe(gulp.dest('dist/js'))
+                    .pipe(gulp.dest('dist/css'))
                     .pipe(notify({ message: 'Minify task complete' }));
         });
          
