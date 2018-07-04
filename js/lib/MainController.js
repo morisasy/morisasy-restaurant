@@ -17,73 +17,74 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 
-class MainController{
-    constructor(container){
-        this.container = container;
-        this.marker = [];
-    }
+export class MainController{
+        constructor(container){
+            this.container = container;
+            this.marker = [];
+        }
 
-    fetchRestaurants(){
+        fetchRestaurants(){
+            let restaurants = this.container;
 
-        return this.container;
-    }
+            return restaurants;
+        }
 
-    /**
-    * Fetch all neighborhoods and set their HTML.
-    * 
-    */
-    fetchNeighborhoods() {
-        // Fetch all restaurants
-        // Get all neighborhoods from all restaurants
-        let restaurants = this.container;
+        /**
+        * Fetch all neighborhoods and set their HTML.
+        * 
+        */
+        fetchNeighborhoods() {
+            // Fetch all restaurants
+            // Get all neighborhoods from all restaurants
+            let restaurants = this.container;
+            
+            const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+                // Remove duplicates from neighborhoods
+            const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
+            return uniqueNeighborhoods;
+            
         
-        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
-            // Remove duplicates from neighborhoods
-        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
-        return uniqueNeighborhoods;
-         
-      
-    }
-    /**
-    * Set neighborhoods HTML.
-    */
-    fillNeighborhoodsHTML(){
-        let neighborhoods = fetchNeighborhoods();
-        const select = document.getElementById('neighborhoods-select');
-        neighborhoods.forEach(neighborhood => {
+        }
+        /**
+        * Set neighborhoods HTML.
+        */
+        fillNeighborhoodsHTML(){
+            let neighborhoods = fetchNeighborhoods();
+            const select = document.getElementById('neighborhoods-select');
+            neighborhoods.forEach(neighborhood => {
 
-            const option = document.createElement('option');
-            option.innerHTML = neighborhood;
-            option.value = neighborhood;
-            select.append(option);
-        });
-    }
+                const option = document.createElement('option');
+                option.innerHTML = neighborhood;
+                option.value = neighborhood;
+                select.append(option);
+            });
+        }
 
-    fetchCuisines() {
+        fetchCuisines() {
 
-        let restaurants = this.container;
-      // Get all cuisines from all restaurants
-        let cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type);
-        // Remove duplicates from cuisines
-        let uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i);
-       return uniqueCuisines;
-      
-    }
+            let restaurants = this.container;
+        // Get all cuisines from all restaurants
+            let cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type);
+            // Remove duplicates from cuisines
+            let uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i);
+            return uniqueCuisines;
+        
+        }
 
 
-    /**
-    * Set cuisines HTML.
-    */
+        /**
+        * Set cuisines HTML.
+        */
 
-    fillCuisinesHTML(){
-        let cuisines = uniqueCuisines();
-        const select = document.getElementById('cuisines-select');
-        cuisines.forEach(cuisine => {
-            const option = document.createElement('option');
-            option.innerHTML = cuisine;
-            option.value = cuisine;
-            select.append(option);
-        });
+        fillCuisinesHTML(){
+            let cuisines = uniqueCuisines();
+            const select = document.getElementById('cuisines-select');
+            cuisines.forEach(cuisine => {
+                const option = document.createElement('option');
+                option.innerHTML = cuisine;
+                option.value = cuisine;
+                select.append(option);
+            });
         
     }
 

@@ -20,6 +20,7 @@
   static get DATABASE_URL() {
     //const port = 3500 // Change this to your server port
     //return `http://localhost:${port}/data/restaurants.json`;
+    // http://localhost:1337/restaurants
     const port = 1337 // Change this to your server port
     return `http://localhost:${port}/restaurants`;
   }

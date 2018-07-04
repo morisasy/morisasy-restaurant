@@ -1,6 +1,5 @@
 let restaurant;
 var map;
-let restaurantID;
 
 /**
  * Initialize Google map, called from HTML.
@@ -34,8 +33,6 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
-    // assign the restaurantID value.
-    restaurantID = id;
     DBHelper.fetchRestaurantById(id, (error, restaurant) => {
       self.restaurant = restaurant;
       if (!restaurant) {

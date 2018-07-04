@@ -1,4 +1,4 @@
-import { MainController } from "./MainController";
+
 
 
 let restaurantsJSON,
@@ -91,10 +91,11 @@ function retrieveAll(){
   return retrieveAll();
 }
 
-export class IndexController {
+export class IndexController extends DBHelper{
   constructor(container) {
+    
     this._container = container;
-    this._mainController=  MainController(this._container);
+   // this._mainController=  MainController(this._container);
     this._lostConnectionToast = null;
     this._db = retrieveRestaurants();
     this._registerServiceWorker();
@@ -110,50 +111,54 @@ export class IndexController {
   }
 
   _registerServiceWorker() {
-    if (!navigator.serviceWorker) return;
-  
-    var indexController = this;
-  
-    navigator.serviceWorker.register('/sw.js')
-      .then( reg => {
-          if (!navigator.serviceWorker.controller) {
-            return;
-          }
-      
-          if (reg.waiting) {
-            indexController._updateReady(reg.waiting);
-            return;
-          }
-      
-          if (reg.installing) {
-            indexController._trackInstalling(reg.installing);
-            return;
-          }
-      
-          reg.addEventListener('updatefound', () => {
-            indexController._trackInstalling(reg.installing);
-          });
-    });
-  
-    // Ensure refresh is only called once.
-    // This works around a bug in "force update on reload".
-
-    
-    var refreshing;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (refreshing) return;
-      window.location.reload();
-      refreshing = true;
-    });
-  }
- 
+        if (!navigator.serviceWorker) return;
+        
+            var indexController = this;
+        
+        navigator.serviceWorker.register('/sw.js')
+            .then( reg => {
+                if (!navigator.serviceWorker.controller) {
+                    return;
+                }
+            
+                if (reg.waiting) {
+                    indexController._updateReady(reg.waiting);
+                    return;
+                }
+            
+                if (reg.installing) {
+                    indexController._trackInstalling(reg.installing);
+                    return;
+                }
+            
+                reg.addEventListener('updatefound', () => {
+                    indexController._trackInstalling(reg.installing);
+                });
+            });
 
 
-  _showRestaurants () {
-     this._mainController(this._db);
-  }
+        // Ensure refresh is only called once.
+        // This works around a bug in "force update on reload".
 
+        
+        var refreshing;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return;
+        window.location.reload();
+        refreshing = true;
+        });
+     }
+     
+    fetchRestaurants(callback){
+        var indexControllerDB = this.container;
+
+       super().fetchRestaurants();
+          
+
+       
+    }
+
+
+   
 } // End of the class 
-
-
 

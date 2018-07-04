@@ -40,7 +40,8 @@ function openDatabase() {
 let restaurantsJSON,
 request,
 objectStore,
-tx;
+tx,
+dataStore= [];
 
 const dbName = "dbRestaurant-static";
 const URL = `http://localhost:1337/restaurants`;
@@ -99,7 +100,7 @@ request.onsuccess = (event) => {
  
  
 
- let dataStore= [];
+ 
  
 function retrieveAll(){
  var objectStore = db.transaction("restaurants").objectStore("restaurants");
