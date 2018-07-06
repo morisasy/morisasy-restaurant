@@ -20,8 +20,7 @@ var gulp = require('gulp'),
         gulp.task('styles', function () {
         return gulp.src('./css/*.css')
                 .pipe(autoprefixer('last 2 version'))
-                .pipe(gulp.dest('./dist/css'))
-                .pipe(notify({ message: 'Styles task complete' }));
+                .pipe(gulp.dest('./dist/css'));
         });
 
         // copy
@@ -31,8 +30,8 @@ var gulp = require('gulp'),
                     .pipe(gulp.dest('dist/img')),
                 gulp.src('./*.{txt,json,md,js}')
                     .pipe(gulp.dest('./dist'))
-                        .pipe(notify({ message: 'Copy task complete' })));
-          });
+            );
+        });
 
         // html task
         gulp.task('html', function() {
@@ -46,16 +45,16 @@ var gulp = require('gulp'),
         gulp.task('imagemin', function() {
             return gulp.src('img/**/*.{png,jpg,gif}')
             .pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
-            .pipe(gulp.dest('./dist/img'))
-            .pipe(notify({ message: 'Imagemin task complete' }));
+            .pipe(gulp.dest('./dist/img'));
+     
         });
         
 
         // javascript files
         gulp.task('js', function(){
             return gulp.src('./js/**/*.js')
-                    .pipe(gulp.dest('./dist/js'))
-                    .pipe(notify({ message: 'Javascript task complete' }));
+                    .pipe(gulp.dest('./dist/js'));
+                    
          });
 
         gulp.task('scripts', function() {
@@ -138,7 +137,7 @@ var gulp = require('gulp'),
             gulp.watch('./js/*.js', ['js']);
 
             // Watch img files
-            gulp.watch('./img/*.jpg', ['js']);
+            gulp.watch('./img/*.jpg', ['imagemin']);
 
             // Watch html files
              // Watch img files

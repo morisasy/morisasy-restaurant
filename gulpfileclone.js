@@ -1,5 +1,5 @@
 'use strict';
-
+<link href="https://unpkg.com /ionicons@4.2.1/dist/css/ionicons.min.css" rel="stylesheet">
 var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     autoprefixer = require('gulp-autoprefixer'),
