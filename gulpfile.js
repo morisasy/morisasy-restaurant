@@ -6,14 +6,8 @@ var gulp = require('gulp'),
     del = require('del'),
     browserSync = require('browser-sync'),
     uglify = require('gulp-uglify'),
-    usemin = require('gulp-usemin'),
-    rev = require('gulp-rev'),
-    cleanCss = require('gulp-clean-css'),
-    flatmap = require('gulp-flatmap'),
-    htmlmin = require('gulp-htmlmin'),
     mergeStream = require('merge-stream'),
     concat = require('gulp-concat'),
-    sourcemaps = require('gulp-sourcemaps'),
     notify = require('gulp-notify');
 
         // styles
@@ -95,21 +89,6 @@ var gulp = require('gulp'),
             return del(['dist']);
         });
         
-        //usemin there're some errors on the usemin task
-        gulp.task('usemin', function() {
-            return gulp.src('./*.html')
-            .pipe(flatmap(function(stream, file){
-                return stream
-                  .pipe(usemin({
-                      css: [ rev() ],
-                      html: [ function() { return htmlmin({ collapseWhitespace: true })} ],
-                      js: [ uglify(), rev() ],
-                      inlinejs: [ uglify() ],
-                      inlinecss: [ cleanCss(), 'concat' ]
-                  }))
-              }))
-              .pipe(gulp.dest('dist/'));
-          });
           
            
         // Default task
@@ -117,17 +96,12 @@ var gulp = require('gulp'),
             gulp.start('watch');
         });
 
-        /*
-        gulp.task('default', ['clean'], function() {
-            gulp.start('styles', 'js', 'images');
-        });
-
-        */
-
-        // build task #usemin
+        
+        // build task #build, clean, copy, imagemin, js, html, styles.
         gulp.task('build',['clean'], function() {
               gulp.start('copy','imagemin','js', 'html','styles');
          });
+
          // styles watch
         gulp.task('watch', function () {
             //  Watch .css files
