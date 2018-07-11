@@ -56,13 +56,15 @@
         "comments": aComment        
     };
     console.log("New comment posted :", formData);
-    // 'only-if-cached'  'same-origin'
+    // 'only-if-cached'  'same-origin' 'no-cache 
+    // credentials: 'include'
+    //  credentials: 'same-origin'
     const formString = JSON.stringify(formData);
      let opts = {
       method: 'POST',
       mode: 'cors',
       cache: "no-cache",
-      credentials: 'same-origin',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -73,6 +75,9 @@
         .then(res => res.json())
         .then(data =>  console.log(data))
         .catch(error => console.log('Erro', error.message));
+
+   document.forms["formcomment"].reset(); 
+    
  } 
 
 

@@ -40,6 +40,10 @@
       callback(null, restaurants);
     })
     .catch((error) => {
+      /* 
+      fetch(YOUR_RESTAURANTS_API_URL).catch(IF_CANT_FETCH_GET_DATA_FROM_indexedDB)
+      .then(YOUR_CREATE_HTML_FUNCTION)
+      */
       console.log('There has been a problem with your fetch operation: ', error.message);
       callback(error, null);
     });
