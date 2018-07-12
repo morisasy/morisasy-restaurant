@@ -8,6 +8,8 @@ data
 CODEOWNERS
 requirements.txt
 dist
+clone
+fetch
 
 # Packages #
 ############

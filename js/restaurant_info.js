@@ -165,3 +165,80 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+/**
+ *  Add form to the
+ */
+
+     // get form element 
+    const form = document.getElementById("commentForm");
+   
+      
+    function submitReview() {
+    
+    
+      // get form element
+      const  restImgLink = document.getElementById("restaurant-img").src;
+      console.log("grabbed link", restImgLink);
+      let rest_ID =restImgLink.split("/img/");
+      
+      let restaurantID = rest_ID.pop().split(".").shift();
+      
+      // get a reviewer name.
+      const commentorName = document.getElementById("username").value;
+      const aComment = document.getElementById("comments").value;
+      //const aComment = document.querySelector('textarea').value;
+     // const restaurant_id = restaurant_ID;
+
+      const starList = document.getElementsByName("star");
+        
+      let aRate;
+     
+      var i;
+      for (i = 0; i < starList.length; i++) {
+          if (starList[i].checked) {
+              aRate = starList[i].value;
+          }
+      }
+      
+      const urlsReviews = 'http://localhost:1337/reviews/';
+      const formData = {
+          "restaurant_id": Number(restaurantID),
+          "name": commentorName,
+          "rating": Number(aRate),
+          "comments": aComment        
+      };
+      console.log("New comment posted :", formData);
+      // 'only-if-cached'  'same-origin' 'no-cache 
+      // credentials: 'include'
+      //  credentials: 'same-origin' no-cors
+      const formString = JSON.stringify(formData);
+      let opts = {
+        method: 'POST',
+        mode: 'no-cors',
+        cache: "no-cache",
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body:formString
+      }; 
+
+     
+
+      fetch(urlsReviews, opts)
+          .then(res => res.json())
+          .then(data =>  console.log(data))
+          .catch(error => console.log('Erro', error.message));
+
+        
+    } 
+
+
+    // submit event
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      submitReview();
+      // reset form element
+      document.forms["formcomment"].reset(); 
+    });

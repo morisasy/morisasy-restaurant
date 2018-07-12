@@ -5,6 +5,7 @@
   <!-- Normalize.css for better cross-browser consistency -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <title>Restaurant Info</title>
@@ -32,7 +33,7 @@
   <main id="maincontent" class = "restaurnt-content">
     <!-- Beginning map -->
     <section id="map-container" tableindex = "-1">
-      <div id="map" aria-label="map"></div>
+      <div id="map" role="geomap"></div>
       
     </section>
     <!-- End map -->
@@ -50,6 +51,44 @@
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
+    <section id = "comment">
+
+      <form role="form" action="#" method="post" id ="formcomment"> 
+        <fieldset >
+            <legend>Write a reviews</legend>
+              
+            <label >Username:
+              <input type="text" name="username" placeholder="username" size="30" maxlength="100" required="required" class = "title">
+            </label>
+                
+            <div id = "stars" aria-label="Star Rating">
+                      
+                  <input type="radio" id="stars-5" name="star" value="5"/>
+                  <label title="5 stars" for="stars-5"></label>
+                  
+                  <input type="radio" id="stars-4" name="star" value="4"/>
+                  <label title="4 stars" for="stars-4"></label>
+                  
+                  <input type="radio" id="stars-3" name="star" value="3"/>
+                  <label title="3 stars" for="stars-3"></label>
+                  
+                  <input type="radio" id="stars-2" name="star" value="2"/>
+                  <label title="2 stars" for="stars-2"></label>
+                  
+                  <input type="radio" id="stars-1" name="star" value="1"/>
+                  <label title="1 stars" for="stars-1"></label>
+          
+            </div>
+            
+                <label class = "comments">Comments: <br>
+                      <textarea rows="6" cols="60" name="comment" id = "comments" placeholder="Write a comment here!"></textarea>
+                </label>
+                <button> Submit Comment</button>
+        
+      </fieldset>
+    </form>
+
+    </section>
   </main>
   <!-- End main -->
 
@@ -59,8 +98,8 @@
   </footer>
   <!-- End footer -->
  
-  
   <script type="application/javascript" charset="utf-8" src="js/lib/index.js"></script>
+ 
   
 
   <!-- Beginning scripts -->
