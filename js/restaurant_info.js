@@ -171,7 +171,7 @@ getParameterByName = (name, url) => {
  */
 
      // get form element 
-    const form = document.getElementById("commentForm");
+    const form = document.getElementById("commentform");
    
       
     function submitReview() {
@@ -189,8 +189,17 @@ getParameterByName = (name, url) => {
       const aComment = document.getElementById("comments").value;
       //const aComment = document.querySelector('textarea').value;
      // const restaurant_id = restaurant_ID;
+     //favorite
+     let isFavarite;
+
+
+     let favorite = document.getElementById("favorite");
+     if (favorite.checked != true) {
+       isFavarite = false;
+     }
 
       const starList = document.getElementsByName("star");
+      
         
       let aRate;
      
@@ -206,7 +215,8 @@ getParameterByName = (name, url) => {
           "restaurant_id": Number(restaurantID),
           "name": commentorName,
           "rating": Number(aRate),
-          "comments": aComment        
+          "comments": aComment,
+          "isFavorite": isFavarite
       };
       console.log("New comment posted :", formData);
       // 'only-if-cached'  'same-origin' 'no-cache 

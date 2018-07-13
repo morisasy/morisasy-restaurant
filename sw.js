@@ -7,6 +7,7 @@ var CACHE_URLS = [
           '/restaurant.html',
           '/js/main/app.js',
           '/js/dbhelper.js',
+          'js/lib/index.js',
           '/js/main.js',
           '/js/restaurant_info.js',
           '/css/styles.css',
@@ -19,8 +20,7 @@ var CACHE_URLS = [
           '/img/7.jpg',
           '/img/8.jpg',
           '/img/9.jpg',
-          '/img/10.jpg',
-          '/manifest.json'
+          '/img/10.jpg'          
 ];
 
 self.addEventListener('install', function (event) {
@@ -64,3 +64,4 @@ self.addEventListener('activate', function(event) {
 
 
 
+  const opt = { credentials: 'same-origin' };

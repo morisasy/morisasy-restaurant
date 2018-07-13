@@ -10,6 +10,9 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     notify = require('gulp-notify');
 
+    const webp = require('gulp-webp');
+       
+
         // styles
         gulp.task('styles', function () {
         return gulp.src('./css/*.css')
@@ -21,12 +24,18 @@ var gulp = require('gulp'),
         gulp.task('copy', function () {
             return mergeStream(
                 gulp.src('./img/icons/*.png')
+                    .pipe(webp())
                     .pipe(gulp.dest('dist/img')),
                 gulp.src('./*.{txt,json,md,js}')
                     .pipe(gulp.dest('./dist'))
             );
         });
-
+         
+        gulp.task('lazyImage', () =>
+            gulp.src('src/image.jpg')
+                .pipe(webp())
+                .pipe(gulp.dest('dist'))
+        );
         // html task
         gulp.task('html', function() {
             return gulp.src('./*.html')
