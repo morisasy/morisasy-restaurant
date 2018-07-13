@@ -63,5 +63,3 @@ self.addEventListener('activate', function(event) {
 
 
 
-
-  const opt = { credentials: 'same-origin' };

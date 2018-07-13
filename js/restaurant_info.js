@@ -171,7 +171,7 @@ getParameterByName = (name, url) => {
  */
 
      // get form element 
-    const form = document.getElementById("commentform");
+    const formEl = document.getElementById("formcomment");
    
       
     function submitReview() {
@@ -190,13 +190,13 @@ getParameterByName = (name, url) => {
       //const aComment = document.querySelector('textarea').value;
      // const restaurant_id = restaurant_ID;
      //favorite
-     let isFavarite;
+     let isFavorite = false;
 
 
      let favorite = document.getElementById("favorite");
-     if (favorite.checked != true) {
-       isFavarite = false;
-     }
+     if (favorite.checked) {
+       isFavorite = true;
+     } 
 
       const starList = document.getElementsByName("star");
       
@@ -216,7 +216,7 @@ getParameterByName = (name, url) => {
           "name": commentorName,
           "rating": Number(aRate),
           "comments": aComment,
-          "isFavorite": isFavarite
+          "is_favorite": isFavorite
       };
       console.log("New comment posted :", formData);
       // 'only-if-cached'  'same-origin' 'no-cache 
@@ -246,7 +246,10 @@ getParameterByName = (name, url) => {
 
 
     // submit event
-    form.addEventListener('submit', function (event) {
+
+   // const submitBtn = document.querySelector('button');
+   // submitBtn.addEventListener('click', submitReview);
+    formEl.addEventListener('submit', function (event) {
       event.preventDefault();
       submitReview();
       // reset form element

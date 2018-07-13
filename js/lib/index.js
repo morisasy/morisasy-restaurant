@@ -70,14 +70,14 @@ request.onerror = (event) => {
 
 
 request.onsuccess = (event) => {
-  db = request.result;
+  //db = request.result;
  console.log('Success: db opened');
 };
 
    
  request.onupgradeneeded = function(event) { 
   
-   var db = event.target.result;
+    db = event.target.result;
    // Create an objectStore for this database
    if(!db.objectStoreNames.contains('restaurants')){
      objectStore = db.createObjectStore("restaurants", { keyPath: "id" });
@@ -96,6 +96,7 @@ request.onsuccess = (event) => {
        restaurantObjectStore.add(restaurant);
      });
    };
+   //retrieveAll(db);
  };
  
  
@@ -104,17 +105,19 @@ request.onsuccess = (event) => {
  
 function retrieveAll(){
  var objectStore = db.transaction("restaurants").objectStore("restaurants");
- objectStore.openCursor().onsuccess = (event) =>{
-   let cursor = event.target.result;
-   if (cursor) {
-     dataStore.push(cursor.value);
-     cursor.continue();
-   }
-   else {
-    console.log ('All restaurants ', restaurants);
-   }
- };
+      objectStore.openCursor().onsuccess = (event) =>{
+        let cursor = event.target.result;
+        if (cursor) {
+          dataStore.push(cursor.value);
+          cursor.continue();
+        }
+        else {
+          console.log ('All restaurants ', restaurants);
+        }
+      };
 
  return objectStore;
 
 }
+let dataGrabbed = retrieveAll(); 
+console.log( "Object retrieved", dataGrabbed);
