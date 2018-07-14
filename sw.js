@@ -48,7 +48,7 @@ self.addEventListener('activate', function(event) {
       })
     );
   });
-  const opt = { credentials: 'same-origin' };
+  //const opt = { credentials: 'same-origin' };
 
   self.addEventListener('fetch', function(event) {
     

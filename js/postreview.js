@@ -5,10 +5,10 @@
   
 
    
-  const form = document.getElementById("commentForm");
+  const form = document.getElementById("formcomment");
   //const submitBtn = document.querySelector('button');
     
-  function submitReview() {
+  function postData() {
    
      // Access the form element...
     const d = new Date();
@@ -31,7 +31,7 @@
     const commentorName = document.getElementById("username").value;
     const aComment = document.getElementById("comments").value;
     //const aComment = document.querySelector('textarea').value;
-    const restaurant_id = restaurantID;
+    const restaurant_id = restaurant_ID;
   
     const starList = document.getElementsByName("star");
     let isFavorite = document.getElementsByName("favorite");
@@ -84,5 +84,5 @@
   // ...to take over the submit event
   form.addEventListener('submit', function (event) {
     event.preventDefault();
-    submitReview();
+    postData();
   });

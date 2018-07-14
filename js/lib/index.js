@@ -102,8 +102,8 @@ request.onsuccess = (event) => {
  
 
  
- 
-function retrieveAll(){
+ /** 
+function retrieveAll(db){
  var objectStore = db.transaction("restaurants").objectStore("restaurants");
       objectStore.openCursor().onsuccess = (event) =>{
         let cursor = event.target.result;
@@ -116,8 +116,9 @@ function retrieveAll(){
         }
       };
 
- return objectStore;
+ return dataStore;
 
 }
-let dataGrabbed = retrieveAll(); 
-console.log( "Object retrieved", dataGrabbed);
+*/
+//let dataGrabbed = retrieveAll(); 
+//console.log( "Object retrieved", dataGrabbed);
