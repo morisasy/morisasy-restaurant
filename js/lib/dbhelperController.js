@@ -33,14 +33,14 @@ request.onerror = (event) => {
 
 
 request.onsuccess = (event) => {
-  db = request.result;
+ //S db = request.result;
  console.log('Success: db opened');
 };
 
    
  request.onupgradeneeded = function(event) { 
   
-   var db = event.target.result;
+    db = event.target.result;
    // Create an objectStore for this database
    if(!db.objectStoreNames.contains('restaurants')){
      objectStore = db.createObjectStore("restaurants", { keyPath: "id" });
@@ -91,7 +91,7 @@ function retrieveAll(){
   return retrieveAll();
 }
 
-export class IndexController extends DBHelper{
+export class IndexController{
   constructor(container) {
     
     this._container = container;
@@ -152,7 +152,7 @@ export class IndexController extends DBHelper{
     fetchRestaurants(callback){
         var indexControllerDB = this.container;
 
-       super().fetchRestaurants();
+      // super().fetchRestaurants();
           
 
        

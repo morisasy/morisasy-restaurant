@@ -7,69 +7,66 @@
    
   const form = document.getElementById("formcomment");
   //const submitBtn = document.querySelector('button');
+  const urlsReviews = 'http://localhost:1337/reviews/';
     
   function postData() {
    
-     // Access the form element...
-    const d = new Date();
-    const n = d.toDateString();
-    const m = n.split(" ");
-  
-    const dateString = m[1] + [2] + ', '+ m[3];
+        // get form element
+        const  restImgLink = document.getElementById("restaurant-img").src;
+        console.log("grabbed link", restImgLink);
+        let rest_ID =restImgLink.split("/img/");
+        
+        let restaurantID = rest_ID.pop().split(".").shift();
+        
+        // get a reviewer name.
+        const commentorName = document.getElementById("username").value;
+        const aComment = document.getElementById("comments").value;
+        //const aComment = document.querySelector('textarea').value;
+      // const restaurant_id = restaurant_ID;
+      //favorite
+       let isFavorite = false;
 
-   
-      // These variables are used to store the form data
-    const  restImgLink = document.getElementById("restaurant-img").src;
-    console.log("grabbed link", restImgLink);
-    let rest_ID =restImgLink.split("/img/");
-    
-    let restaurant_ID = rest_ID.pop().split(".").shift();
-    console.log('String grabed', rest_ID);
 
-    console.log("Image No grabbed", restaurant_ID);
-   
-    const commentorName = document.getElementById("username").value;
-    const aComment = document.getElementById("comments").value;
-    //const aComment = document.querySelector('textarea').value;
-    const restaurant_id = restaurant_ID;
-  
-    const starList = document.getElementsByName("star");
-    let isFavorite = document.getElementsByName("favorite");
-   
-    let aRate;
-    if (isFavorite.checked) {
-        isFavorite = true;
+        let favorite = document.getElementById("favorite");
+        if (favorite.checked) {
+          isFavorite = true;
+        } 
+
+        const starList = document.getElementsByName("star");
+        
+          
+        let aRate;
       
-    }
-    var i;
-    for (i = 0; i < starList.length; i++) {
-        if (starList[i].checked) {
-            aRate = starList[i].value;
+        var i;
+        for (i = 0; i < starList.length; i++) {
+            if (starList[i].checked) {
+                aRate = starList[i].value;
+            }
         }
-    }
-    
-    const urlsReviews = 'http://localhost:1337/reviews/';
-    const formData = {
-        "restaurant_id": Number(restaurant_id),
-        "name": commentorName,
-        "rating": Number(aRate),
-        "comments": aComment        
-    };
-    console.log("New comment posted :", formData);
-    // 'only-if-cached'  'same-origin' 'no-cache 
-    // credentials: 'include'
-    //  credentials: 'same-origin'
-    const formString = JSON.stringify(formData);
-     let opts = {
-      method: 'POST',
-      mode: 'cors',
-      cache: "no-cache",
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body:formString
-    }; 
+        
+        //const urlsReviews = 'http://localhost:1337/reviews/';
+        const formData = {
+            "restaurant_id": Number(restaurantID),
+            "name": commentorName,
+            "rating": Number(aRate),
+            "comments": aComment,
+            "is_favorite": isFavorite
+        };
+        console.log("New comment posted :", formData);
+        // 'only-if-cached'  'same-origin' 'no-cache 
+        // credentials: 'include'
+        //  credentials: 'same-origin' no-cors
+        const formString = JSON.stringify(formData);
+        let opts = {
+          method: 'POST',
+          mode: 'no-cors',
+          cache: "no-cache",
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body:formString
+        }; 
 
     fetch(urlsReviews, opts)
         .then(res => res.json())

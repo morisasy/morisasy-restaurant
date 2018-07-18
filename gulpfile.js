@@ -11,6 +11,17 @@ var gulp = require('gulp'),
     notify = require('gulp-notify');
 
     const webp = require('gulp-webp');
+    const babel = require('gulp-babel');
+
+
+    gulp.task('es15', () => {
+        return gulp.src('./js/**/*.js')
+            .pipe(babel({
+                presets: ['es2015']
+            }))
+            .pipe(gulp.dest('./dist/js'));
+    });
+
        
 
         // styles

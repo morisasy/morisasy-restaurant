@@ -1,4 +1,18 @@
 
+import idb from 'idb';
+//var idb = require("idb");
+
+var openDatabase= function openDB() {
+
+  return idb.open('dbRestaurant-static-1', 1, function(upgradeDb) {
+    var store = upgradeDb.createObjectStore('restaurantsDB', {
+      keyPath: 'id'
+    });
+    store.createIndex('by-date', 'time');
+    console.log('idb implemented');
+  });
+};
+
 /*
 
 import idb from 'idb';
@@ -36,6 +50,7 @@ function openDatabase() {
 */
 
 
+/*
 
 let restaurantsJSON,
 request,
@@ -99,7 +114,7 @@ request.onsuccess = (event) => {
    //retrieveAll(db);
  };
  
- 
+ */
 
  
  /** 
