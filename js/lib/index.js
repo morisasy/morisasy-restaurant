@@ -1,9 +1,75 @@
+'use strict';
 
-import idb from 'idb';
-//var idb = require("idb");
+let restaurantsJSON,
+request,
+objectStore,
+tx,
+dataStore= [];
 
-var openDatabase= function openDB() {
+const dbName = "dbRestaurant-static";
+const URL = `http://localhost:1337/restaurants`;
+const opt = {credentials: 'include'};
+var db;
 
+
+
+function createIndexedDB() {
+  
+  return idb.open(dbName, 1, function(upgradeDb) {
+    var store = upgradeDb.createObjectStore('restaurants', {
+      keyPath: 'id'
+    });
+    store.createIndex('by-date', 'time');
+    console.log('idb implemented');
+  });
+}
+
+const dbPromise = createIndexedDB();
+
+
+
+
+
+fetch(URL,opt)
+.then(response => response.json())
+.then(json => {
+ restaurantsJSON = json;
+ console.log('Sw JSON response',restaurantsJSON);
+ 
+})
+.catch((error) => {
+ console.log('There has been a problem with your fetch operation: ', error.message);
+ 
+});
+
+//  add people to "people"
+
+dbPromise.then(function(db) {
+  var tx = db.transaction('restaurants', 'readwrite');
+  //var peopleStore = tx.objectStore('restaurants');
+  let restaurantObjectStore = tx.objectStore("restaurants");
+  //tx = db.transaction("restaurants", "readwrite");
+  
+  restaurantsJSON.forEach((restaurant) => {
+    restaurantObjectStore.add(restaurant);
+  });
+
+  return tx.complete;
+}).then(function() {
+  console.log('restaurants added');
+});
+/*
+
+
+var dbPromise = idb.open('dbRestaurant-static-1', 1, function(upgradeDb) {
+  var store = upgradeDb.createObjectStore('restaurantsDB', {
+    keyPath: 'id'
+  });
+  store.createIndex('by-date', 'time');
+  console.log('idb implemented');
+});
+
+var openDatabase = function openDB() {
   return idb.open('dbRestaurant-static-1', 1, function(upgradeDb) {
     var store = upgradeDb.createObjectStore('restaurantsDB', {
       keyPath: 'id'
@@ -13,7 +79,16 @@ var openDatabase= function openDB() {
   });
 };
 
-/*
+
+
+function createIndexedDB() {
+  if (!('indexedDB' in window)) {return null;}
+  return idb.open('dashboardr', 1, function(upgradeDb) {
+    if (!upgradeDb.objectStoreNames.contains('events')) {
+      const eventsOS = upgradeDb.createObjectStore('events', {keyPath: 'id'});
+    }
+  });
+}
 
 import idb from 'idb';
 
