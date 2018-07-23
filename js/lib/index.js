@@ -27,18 +27,18 @@ function createIndexedDB() {
 
 const dbPromise = createIndexedDB();
 // get data from the server
-async function fetchData() {
-  try {
-    let response = await fetch(URL,opt);
-    let json = await response.json();
-    //restaurantsJSON = json;
-    console.log('fetchData :', json);
-    return json;
-  }
-  catch(e) {
-    console.log('Error!', e);
-  }
-}
+ 
+fetch(URL,opt)
+        .then(response => response.json())
+        .then(json => {
+         restaurantsJSON = json;
+         console.log('fetchData: ',restaurantsJSON);
+         
+        })
+        .catch((error) => {
+         console.log('There has been a problem with your fetch operation: ', error.message);
+         
+        });
 
 
 
@@ -49,7 +49,11 @@ dbPromise.then(function(db) {
   //var peopleStore = tx.objectStore('restaurants');
   let restaurantObjectStore = tx.objectStore("restaurants");
   //tx = db.transaction("restaurants", "readwrite");
-   restaurantsJSON = fetchData();
+  //let jsonData = fetchData();
+ // console.log('jsonData ', jsonData);
+
+  console.log('restaurantsJSON ', restaurantsJSON);
+ 
   
   restaurantsJSON.forEach((restaurant) => {
     restaurantObjectStore.add(restaurant);
@@ -62,7 +66,20 @@ dbPromise.then(function(db) {
 
 /*
 
-
+async function fetchData() {
+  try {
+    let response = await fetch(URL,opt);
+    let json = await response.json();
+    restaurantsJSON = json;
+    let restaurantsJSON = await response.json();
+    //let json = restaurantsJSON;
+    console.log('fetchData :', restaurantsJSON);
+    return json;
+  }
+  catch(e) {
+    console.log('Error!', e);
+  }
+}
 function fetchData() {
    return fetch(URL,opt)
         .then(response => response.json())
