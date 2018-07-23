@@ -244,8 +244,9 @@ map {
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
-  margin: 0;
+  margin:10px 0;
   width: 100%;
+
 }
 
 #restaurants-list li h1 {

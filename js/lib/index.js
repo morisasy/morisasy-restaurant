@@ -16,7 +16,7 @@ var db;
 // create indexDb
 function createIndexedDB() {
   
-  return idb.open(dbName, 1, function(upgradeDb) {
+  return idb.open(dbName, 1,(upgradeDb) => {
     var store = upgradeDb.createObjectStore('restaurants', {
       keyPath: 'id'
     });
@@ -26,12 +26,34 @@ function createIndexedDB() {
 }
 
 const dbPromise = createIndexedDB();
+
+//  add people to "people"
+
+function saveData(restaurantsJSON) {
+  let events = restaurantsJSON;
+  console.log('restaurantsJSON ', restaurantsJSON);
+  
+  return dbPromise.then(db => {
+    const tx = db.transaction('restaurants', 'readwrite');
+    const store = tx.objectStore('restaurants');
+    
+    
+    return Promise.all(events.map(event => store.add(event)))
+    .catch(() => {
+      tx.abort();
+      throw Error('Events were not added to the store');
+    });
+  });
+}
+
+
 // get data from the server
  
 fetch(URL,opt)
         .then(response => response.json())
         .then(json => {
          restaurantsJSON = json;
+         saveData(restaurantsJSON);
          console.log('fetchData: ',restaurantsJSON);
          
         })
@@ -42,9 +64,35 @@ fetch(URL,opt)
 
 
 
-//  add people to "people"
 
-dbPromise.then(function(db) {
+// get local data
+// get all restaurants
+function getLocalData() {
+  
+  return dbPromise.then((db) => {
+        var tx = db.transaction('restaurants', 'readonly');
+        var store = tx.objectStore('restaurants');
+        return store.getAll();
+      }).then((items) => {
+        console.log('Restaurants by id:', items);
+      });
+}
+let locaDataDb = getLocalData();
+console.log('All Restaurants:', getLocalData);
+
+/*
+
+
+// get all restaurants 
+dbPromise.then((db) => {
+  var tx = db.transaction('restaurants', 'readonly');
+  var store = tx.objectStore('restaurants');
+  return store.getAll();
+}).then((items) => {
+  console.log('Restaurants by id:', items);
+});
+
+dbPromise.then((db) => {
   var tx = db.transaction('restaurants', 'readwrite');
   //var peopleStore = tx.objectStore('restaurants');
   let restaurantObjectStore = tx.objectStore("restaurants");
@@ -60,11 +108,33 @@ dbPromise.then(function(db) {
   });
 
   return tx.complete;
-}).then(function() {
+  }).then(function() {
   console.log('restaurants added');
 });
 
-/*
+// get all restaurants 
+dbPromise.then((db) => {
+  var tx = db.transaction('restaurants', 'readonly');
+  var store = tx.objectStore('restaurants');
+  return store.getAll();
+}).then((items) => {
+  console.log('Restaurants by id:', items);
+});
+
+
+
+
+
+// restaurant by id
+dbPromise.then((db) => {
+  var tx = db.transaction('restaurants');
+  var restaurantStore = tx.objectStore('restaurants');
+  var idIndex = restaurantStore.index('id');
+
+  return idIndex.getAll();
+}).then((restaurantsList) => {
+  console.log('Restaurants by id:', restaurantsList);
+});
 
 async function fetchData() {
   try {
