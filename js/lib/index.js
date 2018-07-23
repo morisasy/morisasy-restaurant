@@ -13,7 +13,7 @@ const opt = {credentials: 'include'};
 var db;
 
 
-
+// create indexDb
 function createIndexedDB() {
   
   return idb.open(dbName, 1, function(upgradeDb) {
@@ -26,22 +26,20 @@ function createIndexedDB() {
 }
 
 const dbPromise = createIndexedDB();
+// get data from the server
+async function fetchData() {
+  try {
+    let response = await fetch(URL,opt);
+    let json = await response.json();
+    restaurantsJSON = json;
+    console.log(restaurantsJSON);
+  }
+  catch(e) {
+    console.log('Error!', e);
+  }
+}
 
 
-
-
-
-fetch(URL,opt)
-.then(response => response.json())
-.then(json => {
- restaurantsJSON = json;
- console.log('Sw JSON response',restaurantsJSON);
- 
-})
-.catch((error) => {
- console.log('There has been a problem with your fetch operation: ', error.message);
- 
-});
 
 //  add people to "people"
 
@@ -59,7 +57,24 @@ dbPromise.then(function(db) {
 }).then(function() {
   console.log('restaurants added');
 });
+
 /*
+
+
+function fetchData() {
+   return fetch(URL,opt)
+        .then(response => response.json())
+        .then(json => {
+         restaurantsJSON = json;
+         console.log('Sw JSON response',restaurantsJSON);
+         
+        })
+        .catch((error) => {
+         console.log('There has been a problem with your fetch operation: ', error.message);
+         
+        });
+}
+
 
 
 var dbPromise = idb.open('dbRestaurant-static-1', 1, function(upgradeDb) {

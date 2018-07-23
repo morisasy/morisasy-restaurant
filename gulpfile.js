@@ -7,8 +7,7 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync'),
     uglify = require('gulp-uglify'),
     mergeStream = require('merge-stream'),
-    concat = require('gulp-concat'),
-    notify = require('gulp-notify');
+    concat = require('gulp-concat');
 
     const webp = require('gulp-webp');
     const babel = require('gulp-babel');
@@ -25,14 +24,14 @@ var gulp = require('gulp'),
        
 
         // styles
-        gulp.task('styles', function () {
+        gulp.task('styles', () => {
         return gulp.src('./css/*.css')
                 .pipe(autoprefixer('last 2 version'))
                 .pipe(gulp.dest('./dist/css'));
         });
 
         // copy
-        gulp.task('copy', function () {
+        gulp.task('copy', () => {
             return mergeStream(
                 gulp.src('./img/icons/*.png')
                     .pipe(webp())
@@ -48,15 +47,14 @@ var gulp = require('gulp'),
                 .pipe(gulp.dest('dist'))
         );
         // html task
-        gulp.task('html', function() {
+        gulp.task('html', () => {
             return gulp.src('./*.html')
-                    .pipe(gulp.dest('./dist'))
-                    .pipe(notify({ message: 'html task complete' }));
+                    .pipe(gulp.dest('./dist'));
           });
        
             
         // Images
-        gulp.task('imagemin', function() {
+        gulp.task('imagemin', () => {
             return gulp.src('img/**/*.{png,jpg,gif}')
             .pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
             .pipe(gulp.dest('./dist/img'));
@@ -65,29 +63,28 @@ var gulp = require('gulp'),
         
 
         // javascript files
-        gulp.task('js', function(){
+        gulp.task('js', () => {
             return gulp.src('./js/**/*.js')
                     .pipe(gulp.dest('./dist/js'));
                     
          });
 
-        gulp.task('scripts', function() {
+        gulp.task('scripts', () => {
            return gulp.src('./js/**/*.js')
                         .pipe(concat('all.js'))
-                        .pipe(gulp.dest('dist/js'))
-                        .pipe(notify({ message: 'Scripts task complete' }));
-        });
+                        .pipe(gulp.dest('dist/js'));
+         });
         // minify js files 
-        gulp.task('minify', function() {
+        gulp.task('minify', () => {
             return gulp.src('./css/*.js')
                     .pipe(uglify())
-                    .pipe(gulp.dest('dist/css'))
-                    .pipe(notify({ message: 'Minify task complete' }));
+                    .pipe(gulp.dest('dist/css'));
+       
         });
          
         
         // browser-sync
-        gulp.task('browser-sync', function () {
+        gulp.task('browser-sync', () => {
             var files = [
             './*.html',
             './css/*.css',
@@ -105,25 +102,25 @@ var gulp = require('gulp'),
        
 
         // clean
-        gulp.task('clean', function() {
+        gulp.task('clean', () => {
             return del(['dist']);
         });
         
           
            
         // Default task
-        gulp.task('default', ['browser-sync'], function() {
+        gulp.task('default', ['browser-sync'], () => {
             gulp.start('watch');
         });
 
         
         // build task #build, clean, copy, imagemin, js, html, styles.
-        gulp.task('build',['clean'], function() {
+        gulp.task('build',['clean'], () => {
               gulp.start('copy','imagemin','js', 'html','styles');
          });
 
          // styles watch
-        gulp.task('watch', function () {
+        gulp.task('watch', () => {
             //  Watch .css files
             gulp.watch('./css/*.css', ['styles']);
 
