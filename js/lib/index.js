@@ -31,8 +31,9 @@ async function fetchData() {
   try {
     let response = await fetch(URL,opt);
     let json = await response.json();
-    restaurantsJSON = json;
-    console.log(restaurantsJSON);
+    //restaurantsJSON = json;
+    console.log('fetchData :', json);
+    return json;
   }
   catch(e) {
     console.log('Error!', e);
@@ -48,6 +49,7 @@ dbPromise.then(function(db) {
   //var peopleStore = tx.objectStore('restaurants');
   let restaurantObjectStore = tx.objectStore("restaurants");
   //tx = db.transaction("restaurants", "readwrite");
+   restaurantsJSON = fetchData();
   
   restaurantsJSON.forEach((restaurant) => {
     restaurantObjectStore.add(restaurant);
