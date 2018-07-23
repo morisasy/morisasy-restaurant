@@ -4,7 +4,8 @@ let restaurantsJSON,
 request,
 objectStore,
 tx,
-dataStore= [];
+reateIndexedDB;
+const dataStore= [];
 
 const dbName = "dbRestaurant-static";
 const URL = `http://localhost:1337/restaurants`;
