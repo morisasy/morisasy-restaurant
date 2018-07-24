@@ -220,21 +220,23 @@ getParameterByName = (name, url) => {
         // 'only-if-cached'  'same-origin' 'no-cache 
         // credentials: 'include'
         //  credentials: 'same-origin' no-cors
-        const formString = JSON.stringify(jsonData);
+        // {'Content-Type': 'application/json' }
+         
+       
+        const headers = new Headers({'Content-Type': 'application/json'});
+        const body = JSON.stringify(jsonData);
         let opts = {
           method: 'POST',
           mode: 'no-cors',
           cache: "no-cache",
           credentials: 'same-origin',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body:formString
+          headers: headers,
+          body: body
         }; 
 
     fetch(urlsReviews, opts)
         .then(res => res.json())
-        .then(data =>  console.log(data))
+        .then(data =>  console.log("Data added to the server",data))
         .catch(error => console.log('Erro', error.message));
 
     document.forms["formcomment"].reset(); 
