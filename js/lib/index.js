@@ -8,7 +8,7 @@ reateIndexedDB;
 const dataStore= [];
 
 const dbName = "dbRestaurant-static";
-const URL = `http://localhost:1337/restaurants`;
+const URL = "http://localhost:1337/restaurants";
 const opt = {credentials: 'include'};
 var db;
 
@@ -16,16 +16,19 @@ const dbVersion = 1; // Use a long long for this value (don't use a float)
 const dbStoreName = 'restaurants';
 
 
-// create indexDb
+ // create DB function createIndexedDB()
 function createIndexedDB() {
-  
-  return idb.open(dbName, dbVersion,(upgradeDb) => {
-    var store = upgradeDb.createObjectStore(dbStoreName, {
-      keyPath: 'id'
-    });
-    store.createIndex('by-name', 'name');
-    console.log('idb implemented');
+
+  if (!('indexedDB' in window)) {return null;}
+  return idb.open(dbName, dbVersion, (upgradeDb) =>  {
+    if (!upgradeDb.objectStoreNames.contains('restaurants')) {
+      const store = upgradeDb.createObjectStore(dbStoreName, {keyPath: 'id'});
+      store.createIndex('by-name', 'name');
+     // return store;
+    }
   });
+  
+  
 }
 
 const dbPromise = createIndexedDB();
@@ -47,7 +50,7 @@ const dbPromise = createIndexedDB();
 
 function saveData(restaurantsJSON) {
   let events = restaurantsJSON;
-  console.log('restaurantsJSON ', restaurantsJSON);
+  console.log('restaurantsJSON ', events);
   
   return dbPromise.then(db => {
     //const tx = db.transaction('restaurants', 'readwrite');
@@ -57,35 +60,42 @@ function saveData(restaurantsJSON) {
     
     return Promise.all(events.map(event => store.add(event)))
     .catch(() => {
-      tx.abort();
+      //tx.abort();
       throw Error('Events were not added to the store');
     });
   });
 }
 
-
 // get data from the server
-function fetchData(){
-    fetch(URL,opt)
-          .then(response => response.json())
-          .then(json => {
-           restaurantsJSON = json;
-           saveData(restaurantsJSON);
-           console.log('fetchData: ',restaurantsJSON);
-           
-          })
-          .catch((error) => {
-           console.log('There has been a problem with your fetch operation: ', error.message);
-           
-          });
+fetch(URL,opt)
+    .then(response => response.json())
+    .then((jsonData) => {
+     //restaurantsJSON = json;
+     console.log('fetchData: ',jsonData);
+     let localDd = saveData(jsonData);
+     //saveEventDataLocally(jsonData);
+     
+     
+    })
+    .catch((error) => {
+     console.log('There has been a problem with your fetch operation: ', error.message);
+     
+    });
 
-}
 
-
+//let resultData(URL, opt);
 
 
 // get local data
 // get all restaurants
+function getLocalEventData() {
+  
+  return dbPromise.then(db => {
+    const tx = db.transaction('restaurants', 'readonly');
+    const store = tx.objectStore('restaurants');
+    return store.getAll();
+  });
+}
 function getLocalData() {
   
   return dbPromise.then((db) => {
@@ -100,3 +110,32 @@ function getLocalData() {
 }
 let locaDataDb = getLocalData();
 console.log('All Restaurants:', getLocalData);
+
+let retrievedData = getLocalEventData();
+console.log("I catched You: ", retrievedData);
+//retrievedData.then(data => console.log(data));
+
+function getAllData(){
+   return dbPromise.then((db) => {
+    const store = getObjectStore(db,dbStoreName, 'readonly');
+    return store.openCursor();
+  });
+
+}
+
+/**
+// create indexDb
+function createDB() {
+  if (!('indexedDB' in window)) {return null;}
+  return idb.open(dbName, dbVersion,(upgradeDb) => {
+    var store = upgradeDb.createObjectStore(dbStoreName, {
+      keyPath: 'id'
+    });
+    store.createIndex('by-name', 'name');
+    console.log('idb implemented');
+  });
+  
+}
+ const dbPro = createDB();
+
+ */

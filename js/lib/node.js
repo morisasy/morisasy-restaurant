@@ -1,3 +1,4 @@
+
 if (typeof indexedDB != 'undefined') {
     module.exports = require('./idb.js');
   }
