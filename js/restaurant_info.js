@@ -216,11 +216,8 @@ getParameterByName = (name, url) => {
   function postData() {
    
        let jsonData = getData();
-        console.log("New comment posted :", jsonData);
-        // 'only-if-cached'  'same-origin' 'no-cache 
-        // credentials: 'include'
-        //  credentials: 'same-origin' no-cors
-        // {'Content-Type': 'application/json' }
+        //console.log("New comment posted :", jsonData);
+      
          
        
         const headers = new Headers({'Content-Type': 'application/json'});

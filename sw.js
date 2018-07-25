@@ -7,7 +7,6 @@ var CACHE_URLS = [
           '/restaurant.html',
           '/js/main/app.js',
           '/js/dbhelper.js',
-          'js/lib/index.js',
           'js/lib/idb.js',
           '/js/main.js',
           '/js/restaurant_info.js',

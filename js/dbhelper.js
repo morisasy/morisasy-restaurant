@@ -3,28 +3,8 @@
  */
 
 
- // create DB function createIndexedDB()
-function createIndexedDB() {
-
-const dbName = "dbRestaurant-static";
-var db;
-
-const dbVersion = 1; // Use a long long for this value (don't use a float)
-const dbStoreName = 'restaurants';
 
 
-  if (!('indexedDB' in window)) {return null;}
-  return idb.open(dbName, dbVersion, (upgradeDb) =>  {
-    if (!upgradeDb.objectStoreNames.contains('restaurants')) {
-      const store = upgradeDb.createObjectStore(dbStoreName, {keyPath: 'id'});
-      //const store = upgradeDb.createObjectStore(dbStoreName);
-      store.createIndex('name', 'name', {unique: true});
-     // return store;
-    }
-  }); 
-}
-
-//const dbPromise = createIndexedDB();
 
 
 
@@ -53,13 +33,6 @@ const dbStoreName = 'restaurants';
  // create DB function createIndexedDB()
 static createIndexedDB() {
   
-//const dbName = "dbRestaurant-static";
-//var db;
-
-//const dbVersion = 1; // Use a long long for this value (don't use a float)
-//const dbStoreName = 'restaurants';
-
-
   if (!('indexedDB' in window)) {return null;}
   return idb.open(DBHelper.dbName, DBHelper.dbVersion, (upgradeDb) =>  {
     if (!upgradeDb.objectStoreNames.contains('restaurants')) {
@@ -90,17 +63,15 @@ static createIndexedDB() {
               
   }
 
-
+// save data from network to local indexDB
  static saveData(restaurantsJSON) {
-    //let events = restaurantsJSON;
+    
     let restaurants = restaurantsJSON;
     console.log('restaurantsJSON ', restaurantsJSON);
     const dbPromise = DBHelper.createIndexedDB();
 
      dbPromise.then(db => {
-      // const tx = db.transaction ('restaurants', 'readwrite');
-      // let keyValStore = tx.objectStore('restaurants')
-      const store = DBHelper.getObjectStore(db, DBHelper.dbStoreName, 'readwrite');
+     const store = DBHelper.getObjectStore(db, DBHelper.dbStoreName, 'readwrite');
 
        restaurants.forEach((restaurant) => {
         store.put(restaurant);
@@ -128,9 +99,31 @@ static createIndexedDB() {
       fetch(YOUR_RESTAURANTS_API_URL).catch(IF_CANT_FETCH_GET_DATA_FROM_indexedDB)
       .then(YOUR_CREATE_HTML_FUNCTION)
       */
+      const restaurantsDB = getLocalData();
+        restaurantsDB.then((restaurants) => {
+          //console.log('Restaurants by id:', restaurants);
+          callback(null, restaurants);
+        });
       console.log('There has been a problem with your fetch operation: ', error.message);
-      callback(error, null);
+      //callback(error, null);
     });
+  }
+
+  /**
+   * Fetch data from local indexdb.
+   */
+  static getLocalData() {
+
+    const dbPromise = DBHelper.createIndexedDB();
+    
+    return dbPromise.then((db) => {
+          if (!db) return;
+          const store = DBHelper.getObjectStore(db, DBHelper.dbStoreName, 'readonly');
+
+          return store.getAll();
+        }).then((items) => {
+         // console.log('Restaurants by id:', items);
+        });
   }
    
   /**

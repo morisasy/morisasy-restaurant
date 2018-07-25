@@ -42,7 +42,7 @@ var gulp = require('gulp'),
         });
          
         gulp.task('lazyImage', () =>
-            gulp.src('src/image.jpg')
+            gulp.src('img/*.{png,jpg,gif}')
                 .pipe(webp())
                 .pipe(gulp.dest('dist'))
         );
