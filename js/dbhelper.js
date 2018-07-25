@@ -3,15 +3,74 @@
  */
 
 
+ // create DB function createIndexedDB()
+function createIndexedDB() {
+
+const dbName = "dbRestaurant-static";
+var db;
+
+const dbVersion = 1; // Use a long long for this value (don't use a float)
+const dbStoreName = 'restaurants';
+
+
+  if (!('indexedDB' in window)) {return null;}
+  return idb.open(dbName, dbVersion, (upgradeDb) =>  {
+    if (!upgradeDb.objectStoreNames.contains('restaurants')) {
+      const store = upgradeDb.createObjectStore(dbStoreName, {keyPath: 'id'});
+      //const store = upgradeDb.createObjectStore(dbStoreName);
+      store.createIndex('name', 'name', {unique: true});
+     // return store;
+    }
+  }); 
+}
+
+//const dbPromise = createIndexedDB();
+
+
 
  class DBHelper {
+  
  /** constructor(){
-    this._dbPromise = openDatabase();
+  dbPromise
+    this._dbPromise = createIndexedDB();
   }
+  static get staticVariable(){
+    return dependency;
+    }
   */
- 
+  static get dbName(){
+    return "dbRestaurant-static";
+  }
+  static get dbVersion(){
+    return 1;
+  }
+  static get dbStoreName(){
+    return "restaurants";
+  }
   
 
+ 
+ // create DB function createIndexedDB()
+static createIndexedDB() {
+  
+//const dbName = "dbRestaurant-static";
+//var db;
+
+//const dbVersion = 1; // Use a long long for this value (don't use a float)
+//const dbStoreName = 'restaurants';
+
+
+  if (!('indexedDB' in window)) {return null;}
+  return idb.open(DBHelper.dbName, DBHelper.dbVersion, (upgradeDb) =>  {
+    if (!upgradeDb.objectStoreNames.contains('restaurants')) {
+      const store = upgradeDb.createObjectStore(DBHelper.dbStoreName, {keyPath: 'id'});
+      //const store = upgradeDb.createObjectStore(dbStoreName);
+      store.createIndex('name', 'name', {unique: true});
+     // return store;
+    }
+  }); 
+}
+ 
   /**
    * python3 -m http.server 3500
    * Database URL.
@@ -25,6 +84,30 @@
     return `http://localhost:${port}/restaurants`;
   }
 
+  static getObjectStore(dbs,storeName, mode) {
+            let tx = dbs.transaction(storeName, mode);
+        return tx.objectStore(storeName);
+              
+  }
+
+
+ static saveData(restaurantsJSON) {
+    //let events = restaurantsJSON;
+    let restaurants = restaurantsJSON;
+    console.log('restaurantsJSON ', restaurantsJSON);
+    const dbPromise = DBHelper.createIndexedDB();
+
+     dbPromise.then(db => {
+      // const tx = db.transaction ('restaurants', 'readwrite');
+      // let keyValStore = tx.objectStore('restaurants')
+      const store = DBHelper.getObjectStore(db, DBHelper.dbStoreName, 'readwrite');
+
+       restaurants.forEach((restaurant) => {
+        store.put(restaurant);
+       })
+     });
+  }
+
   // Fetch all restaurants.
   
   static fetchRestaurants(callback) {
@@ -36,6 +119,7 @@
     .then(response => response.json())
     .then(json => {
       const restaurants = json;
+      DBHelper.saveData(restaurants);
       console.log('Request succeeded with JSON response', json);
       callback(null, restaurants);
     })

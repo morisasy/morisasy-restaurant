@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 let restaurantsJSON,
 request,
 objectStore,
@@ -33,11 +33,11 @@ function createIndexedDB() {
 const dbPromise = createIndexedDB();
 
 
-/**
-  * @param {string} dbs database name.
-   * @param {string} store_name
-   * @param {string} mode either "readonly" or "readwrite"
-   */
+
+  // @param {string} dbs database name.
+   // @param {string} store_name
+   // @param {string} mode either "readonly" or "readwrite"
+   
   function getObjectStore(dbs,storeName, mode) {
             let tx = dbs.transaction(storeName, mode);
         return tx.objectStore(storeName);
@@ -52,6 +52,7 @@ function saveData(restaurantsJSON) {
   console.log('restaurantsJSON ', events);
   
   return dbPromise.then(db => {
+      if (!db) return;
      const store = getObjectStore(db,dbStoreName, 'readwrite');
         
     return Promise.all(events.map(event => store.add(event)))
@@ -62,30 +63,9 @@ function saveData(restaurantsJSON) {
   });
 }
 
-// get data from the server
-/**
-fetch(URL,opt)
-    .then(response => response.json())
-    .then((jsonData) => {
-      console.log('fetchData: ',jsonData);
-     saveData(jsonData);
-     //saveEventDataLocally(jsonData);
-    })
-    .catch((error) => {
-     console.log('There has been a problem with your fetch operation: ', error.message);
-     
-    });
 
-    return fetch(url,options).then(response => {
-    if (!response.ok) {
-      throw Error(response.statusText);
-    }
-    return response.json();
-  });
 
- */
-
- 
+// getting Data from server 
 function getServerData(url, options) {
     
     return fetch(url,options).then(response => {
@@ -115,6 +95,7 @@ let loadfromServer = loadServerData(URL, opt);
  function getLocalEventData() {
   
   return dbPromise.then(db => {
+        if (!db) return;
         const store = getObjectStore(db,dbStoreName, 'readonly'); 
              // store.createIndex('by-name', 'name');   
         let nameIndex = store.index('name');
@@ -127,7 +108,10 @@ let loadfromServer = loadServerData(URL, opt);
 function getLocalData() {
   
   return dbPromise.then((db) => {
-        const store = getObjectStore(db,dbStoreName, 'readonly');
+        if (!db) return;
+        const store = getObjectStore(db,'restaurants', 'readonly');
+        //const tx = db.transaction('restaurants', 'readonly');
+        //const store = tx.objectStore('restaurants');
        
         return store.getAll();
       }).then((items) => {
@@ -142,6 +126,7 @@ let retrievedData = getLocalEventData();
 retrievedData.then(data => console.log( "I catched You: ",data));
 
 function getAllData(){
+    if (!db) return;
    return dbPromise.then((db) => {
     const store = getObjectStore(db,dbStoreName, 'readonly');
     return store.openCursor();
@@ -149,38 +134,4 @@ function getAllData(){
 
 }
 
-/**
-// create indexDb
-function createDB() {
-  if (!('indexedDB' in window)) {return null;}
-  return idb.open(dbName, dbVersion,(upgradeDb) => {
-    var store = upgradeDb.createObjectStore(dbStoreName, {
-      keyPath: 'id'
-    });
-    store.createIndex('by-name', 'name');
-    console.log('idb implemented');
-  });
-  
-}
- const dbPro = createDB();
-
-function saveData(restaurantsJSON) {
-  let events = restaurantsJSON;
-  console.log('restaurantsJSON ', events);
-  
-  return dbPromise.then(db => {
-    //const tx = db.transaction('restaurants', 'readwrite');
-    //const store = tx.objectStore('restaurants');
-    const store = getObjectStore(db,dbStoreName, 'readwrite');
-    
-    
-    return Promise.all(events.map(event => store.add(event)))
-    .catch(() => {
-      //tx.abort();
-      throw Error('Events were not added to the store');
-    });
-  });
-}
-
-
- */
+*/
