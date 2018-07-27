@@ -468,9 +468,7 @@ label {
   margin-bottom: 10px;
 }
 
-#stars {
-  display: inline-flex;
-}
+
 
 input:focus {
   background-color: #ffffff;
@@ -500,6 +498,7 @@ fieldset {
 }
 
 #stars {
+  display: inline-flex;
   direction: rtl;
   text-align: center;
   width: 100px;

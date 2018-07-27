@@ -56,18 +56,17 @@
     <section id="reviews-container">
       <ul id="reviews-list"></ul>
     </section>
-    <section id="favorite-container" style="width: 100%">
-      <span> Is it your Favorites Restaurant?</span> <br>
-      <div id = "myfavorite" aria-label="Favorite" width= "100%">
+    <section id="favorite-container" style="display: flex;width:50% flex-content:center;">
+      <span> Is it your Favorites Restaurant?</span> 
+      <div id = "myfavorite" aria-label="Favorite" style="width:10%; font-size: 20px;">
                                        
-                  <input type="radio" id="favorite-up" name="favorite" value="1"/>
-                  <label title="Like" for="favorite-up"></label>
-
-                  <input type="radio" id="favorite-down" name="favorite" value="2"/>
-                  <label title="Dislike" for="favorite-down"></label> 
+          <label class = "isfavorite"> &#9825;
+              <input type="radio" id="favorite-up" name="favorite" value="1" style="width:10px; height:10px;"/>
+          </label>
+         
                                            
-        </div>
-        <button> Save</button>  
+      </div>
+      <button> Save</button>  
     </section>
     <!-- End reviews -->
     <section id = "comment">
@@ -77,7 +76,7 @@
             <legend>Write a reviews</legend>
               
             <label >Username:
-              <input type="text" name="username" placeholder="username" size="30" maxlength="100" required="required" class = "title" id= "username">
+              <input type="text" name="username" placeholder="username" size="30" maxlength="100" required="required" class = "title" id= "username" >
             </label>
             <label class = "isfavorite"> Favorite:
               <input type="checkbox" name="favorite"  size="2" maxlength="3" id= "favorite">
@@ -91,7 +90,7 @@
                   <input type="radio" id="stars-4" name="star" value="4"/>
                   <label title="4 stars" for="stars-4"></label>
                   
-                  <input type="radio" id="stars-3" name="star" value="3"/>
+                  <input type="radio" id="stars-3" name="star" value="3">
                   <label title="3 stars" for="stars-3"></label>
                   
                   <input type="radio" id="stars-2" name="star" value="2"/>
