@@ -503,7 +503,7 @@ fieldset {
   text-align: center;
   width: 100px;
   border: 0;
-  font-size: 0;
+  /*font-size: 0; */
 }
 
 #stars label {
@@ -512,7 +512,7 @@ fieldset {
   position: relative;
   text-align: center;
   width: 1em;
-  height: 1em;
+  height: 2em;
 }
 
 #stars label:before {
