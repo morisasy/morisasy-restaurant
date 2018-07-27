@@ -37,9 +37,19 @@ static createIndexedDB() {
   return idb.open(DBHelper.dbName, DBHelper.dbVersion, (upgradeDb) =>  {
     if (!upgradeDb.objectStoreNames.contains('restaurants')) {
       const store = upgradeDb.createObjectStore(DBHelper.dbStoreName, {keyPath: 'id'});
+       store.createIndex('name', 'name', {unique: true});
       //const store = upgradeDb.createObjectStore(dbStoreName);
-      store.createIndex('name', 'name', {unique: true});
-     // return store;
+      /**
+      switch(upgradeDb.oldVersion) {
+          case 0:
+            const store = upgradeDb.createObjectStore(DBHelper.dbStoreName, {keyPath: 'id'});
+            
+          case 1:
+          const storeByName = upgradeDb.createObjectStore(DBHelper.dbStoreName);
+          storeByName.createIndex('name', 'name', {unique: true});
+         }
+         */
+            
     }
   }); 
 }
@@ -79,6 +89,19 @@ static createIndexedDB() {
      });
   }
 
+  static getLocalData(db_promise) {
+
+    //const dbPromise = DBHelper.createIndexedDB();
+
+    
+    return db_promise.then((db) => {
+          if (!db) return;
+          const store = DBHelper.getObjectStore(db, DBHelper.dbStoreName, 'readonly');
+
+          return store.getAll();
+        });
+  }
+
   // Fetch all restaurants.
   
   static fetchRestaurants(callback) {
@@ -99,7 +122,8 @@ static createIndexedDB() {
       fetch(YOUR_RESTAURANTS_API_URL).catch(IF_CANT_FETCH_GET_DATA_FROM_indexedDB)
       .then(YOUR_CREATE_HTML_FUNCTION)
       */
-      const restaurantsDB = getLocalData();
+      const db_promise = DBHelper.createIndexedDB();
+      const restaurantsDB = getLocalData(db_promise);
         restaurantsDB.then((restaurants) => {
           //console.log('Restaurants by id:', restaurants);
           callback(null, restaurants);
@@ -110,9 +134,9 @@ static createIndexedDB() {
   }
 
   /**
-   * Fetch data from local indexdb.
-   */
-  static getLocalData() {
+   * 
+   Fetch data from local indexdb.
+    static getLocalData() {
 
     const dbPromise = DBHelper.createIndexedDB();
     
@@ -125,6 +149,10 @@ static createIndexedDB() {
          // console.log('Restaurants by id:', items);
         });
   }
+
+
+   */
+  
    
   /**
    * Fetch a restaurant by its ID.
