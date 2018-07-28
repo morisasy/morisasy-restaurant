@@ -180,15 +180,7 @@ getParameterByName = (name, url) => {
      // get a reviewer name.
      const commentorName = document.getElementById("username").value;
      const aComment = document.getElementById("comments").value;
-    
-   //favorite
-    let isFavorite = false;
-
-
-     let favorite = document.getElementById("favorite");
-     if (favorite.checked) {
-       isFavorite = true;
-     } 
+   
 
      const starList = document.getElementsByName("star");
      
@@ -207,8 +199,7 @@ getParameterByName = (name, url) => {
          "restaurant_id": Number(restaurantID),
          "name": commentorName,
          "rating": Number(aRate),
-         "comments": aComment,
-         "is_favorite": isFavorite
+         "comments": aComment
      };
      return formData;
   }
@@ -239,7 +230,39 @@ getParameterByName = (name, url) => {
     document.forms["formcomment"].reset(); 
     
  } 
+// Save favorites
+const btn = document.querySelector('input');
 
+btn.addEventListener('click', saveBtn);
+
+// get favorite and unfavorite data
+function getIsFavorite() {
+
+   //favorite
+    let isFavorite = false;
+
+
+     let thumbUP = document.getElementById("thumbUP");
+      let thumbDown = document.getElementById("thumbDown");
+     if (thumbUP.checked) {
+       isFavorite = true;
+     } 
+     if (thumbDown.checked) {
+       isFavorite = false;
+     } 
+          
+     //const urlsReviews = 'http://localhost:1337/reviews/';
+     const isFavoriteData = {
+        "restaurant_id": Number(restaurantID),
+        "isFavorite":isFavorite
+     };
+     return isFavoriteData;
+ 
+}
+
+function saveBtn() {
+
+}
 
   // ...to take over the submit event
   formEl.addEventListener('submit', function (event) {

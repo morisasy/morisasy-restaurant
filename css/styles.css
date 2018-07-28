@@ -546,6 +546,24 @@ fieldset {
   width: 10%;
   height: 16px;
 }
+label.is_favorite:hover{
+  color: #ffbb04;
+ }
+
+label.is_favorite:active{
+  color: #ffbb04;
+  color: #ccc;
+  top: 1px;
+}
+
+input[type="radio"]:checked + label {
+  color:#ffbb04;
+}
+
+
+
+
+
 
 /* ====================== Media Queries====================== */
 
