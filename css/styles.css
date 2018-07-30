@@ -1,10 +1,15 @@
+
 @charset "utf-8";
 /* CSS Document */
 
 html,
-body,
-main {
+body {
   height: 100%;
+}
+
+*{
+  margin: 0;
+  padding: 0;
 }
 
 body,
@@ -50,12 +55,9 @@ video {
 body {
   background-color: #fdfdfd;
   margin: 0;
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr auto 1fr;
-  justify-content: center;
+
 }
+
 
 ul,
 li {
@@ -97,32 +99,55 @@ h2 {
   font-size: 1.5em;
 }
 
+.inside{ 
+  background-color: #fdfdfd;
+  margin: 0;
+ /* display: grid;*/
+  grid-gap: 10px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto 1fr;
+  justify-content: center;
+  
+}
+
 #maincontent {
+  width: 100%;
   background-color: #f3f3f3;
   min-height: 100%;
-  /* min-height: 100%; */
+ 
 }
 
 #footer {
-  flex-shrink: 0;
+  
   width: 100%;
-  height: 80px;
+  height: 14vh;
   background-color: #444;
   color: #aaa;
-  font-size: 1.1em;
+  font-size: 1em;
   letter-spacing: 1px;
   padding: 25px;
   text-align: center;
   text-transform: uppercase;
 }
+section{
+  width: 100%;
+}
 
 /* ====================== Navigation ====================== */
+header {
+  width: 100%;
+  margin: 0;
+}
+header, footer {
+  flex-basis: 100%;
+}
 
 nav {
   width: 100%;
   /*height: 80px; */ 
   background-color: #252831;
   text-align: center;
+  margin: 0;
 }
 
 nav h1 {
@@ -194,7 +219,6 @@ map {
 
 .filter-options {
   width: 100%;
-  height: 100%;
   background-color: #3397DB;
   align-items: center;
   justify-content: center;
@@ -219,7 +243,7 @@ map {
   letter-spacing: 0;
   margin: 10px;
   padding: 0 10px;
-  width: 200px;
+  width: 180px;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -310,9 +334,11 @@ map {
   width: 100%;
 }
 
-.inside #footer {
+.inside > footer {
   bottom: 0;
-  width: 50%;
+  width: 50% !important;
+  height: 14vh;
+  grid-row: 3/4;
 }
 
 .inside #restaurant-name {
@@ -361,12 +387,17 @@ map {
 }
 
 #restaurant-container,
+#favorite-container,
 #reviews-container{
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 50px 40px 30px;
   width: 50%;
   margin: 10px;
+}
+#favorite-container {
+      
+ font-size: 1em;
 }
 
 #reviews-container {
@@ -434,7 +465,7 @@ button {
   text-shadow: 0px 1px 1px #ffffff;
 }
 
-#comment {
+#comments {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   width: 50%;
@@ -452,7 +483,7 @@ textarea {
 
 input {
   width: 200px;
-  height: 50px;
+  height: 40px;
   margin: .5rem 0;
   padding: .5rem;
   border-radius: 5px;
@@ -478,14 +509,16 @@ input:focus {
 .title {
   margin-left: 10px;
 }
-
+form{
+  margin: 0;
+}
 fieldset {
-  padding: 2em;
+  padding: 0.75em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 5px;
-  height: 500px;
+  height: 50%;
   width: 90%;
   border: 1px solid #dcdcdc;
   border-radius: 10px;
@@ -493,9 +526,11 @@ fieldset {
   margin-left: auto;
 }
 
-#stars>input {
+input[type= "radio"] {
   display: none;
 }
+
+
 
 #stars {
   display: inline-flex;
@@ -541,6 +576,18 @@ fieldset {
   margin: 0 auto;
 }
 
+input[type ="button"] {
+  height: 30px;
+  width:50px;
+  background-color: #eee;
+  padding: 5px;
+  border: 2px solid #b2b2b2;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 16px;
+  text-shadow: 0px 1px 1px #ffffff;               
+}
+
 #favorite {
   margin: 0;
   width: 10%;
@@ -550,11 +597,7 @@ label.is_favorite:hover{
   color: #ffbb04;
  }
 
-label.is_favorite:active{
-  color: #ffbb04;
-  color: #ccc;
-  top: 1px;
-}
+
 
 input[type="radio"]:checked + label {
   color:#ffbb04;
@@ -567,7 +610,7 @@ input[type="radio"]:checked + label {
 
 /* ====================== Media Queries====================== */
 
-@media (max-width: 640px) {
+@media screen and (max-width: 644px) {
       .inside {
         background-color: #fdfdfd;
         margin: 0;
@@ -575,64 +618,77 @@ input[type="radio"]:checked + label {
         grid-gap: 10px;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr auto 1fr;
-        grid-template-areas: "header" "content" "footer";
+        grid-template-areas: "header" "maincontent" "footer";
         justify-content: center;
       }
-      .inside #header {
+      .inside > #header {
         grid-area: header;
+        
       }
-      .inside #maincontent {
-        grid-area: content;
+      .inside > #maincontent {
+        grid-area: maincontent;
         border-top: 132px;
-        display: grid;
-        grid-gap: 10px;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 2fr auto 1fr;
-        grid-template-areas:
-        "restaurant-map" 
-        "restaurant-contents"
-        "restaurant-reviews"
-        "comment";
+        display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+        
+      }
+      .inside > #maincontent {
+        width: 100%;
+        background-color: #f3f3f3;
+        height: 100%;
       }
 
-      .inside  #map-container,
-      .inside  #restaurant-container,
-      .inside  #comment,
-      .inside  #reviews-container,
+      .inside > #footer {
+        grid-area: footer;
+        bottom: 0;
+        padding: 10px;
+        flex: 1 1 auto;
+        height: 14vh;
+        grid-row: 3/4;
+        width: 100% !important;
+       
+      }
+
+      .inside #map-container,
+      .inside #restaurant-container,
+      .inside #favorite-container,
+      .inside #comments,
+      .inside #reviews-container,
       .inside #map,
       .inside #footer{
         width: 100%;
         margin: 0;
       }
+      .box {
+        width:100%;
+      }
       .inside #map-container {
-        grid-area: restaurant-map;
         background: blue none repeat scroll 0 0;
         position: absolute;
         height: 41%;
         right: 0;
         top: 132px;
       }
+      .inside #reviews-container,
+      .inside #favorite-container,
+      .inside #restaurant-container {
+        border-bottom: 1px solid #d9d9d9;
+        border-top: 1px solid #fff;
+        padding: 50px 40px 30px;
+      }
 
       .inside #restaurant-container {
-        grid-area: restaurant-contents;
-        border-bottom: 1px solid #d9d9d9;
-        border-top: 1px solid #fff;
-        padding: 50px 40px 30px;
+        
+        padding: 310px 40px 20px 30px;
       }
 
-      .inside #footer {
-        grid-area: footer;
-        bottom: 0;
-      }
+      
 
       .inside #reviews-container {
-        grid-area: restaurant-reviews;
-        border-bottom: 1px solid #d9d9d9;
-        border-top: 1px solid #fff;
-        padding: 50px 40px 30px;
-        margin: 0;
+          margin: 0;
+          padding: 50px 40px 30px;
       }
       #breadcrumb {
         padding: 10px 40px 16px;
@@ -654,13 +710,19 @@ input[type="radio"]:checked + label {
         text-transform: uppercase;
         line-height: 1.1;
       }
+      .inside #favorite-container {
+        padding: 30px 40px 30px;
+        margin: 0;
+        font-size: 1em;
+      }
 
-      .inside #comment {
-        grid-area: comment;
+      .inside #comments {
+       
         border-bottom: 1px solid #d9d9d9;
         border-top: 1px solid #fff;
-        padding: 10px 40px 30px;
+        padding: 5px 10px 15px;
         margin: 0;
+        height: 450px;
       }
 
         
@@ -670,7 +732,7 @@ input[type="radio"]:checked + label {
         flex-direction: column;
         justify-content: center;
         margin-top: 5px;
-        height: 500px;
+        height: 400px;
         width: 100%;
         margin-right:0;
         margin-left:0;
@@ -678,4 +740,143 @@ input[type="radio"]:checked + label {
       .title {
         margin-left: 0;
       }
+
+
+    .filter-options h2 {
+      display: none;
+    }
 }
+
+
+
+@media screen and (max-width: 554px){
+      .inside {
+        background-color: #fdfdfd;
+        margin: 0;
+        display: grid;
+        grid-gap: 5px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto 1fr;
+        grid-template-areas: "header" "maincontent" "footer";
+        justify-content: center;
+      }
+      .inside #header {
+        grid-area: header;
+        
+      }
+      .inside #maincontent {
+        grid-area: maincontent;
+        border-top: 132px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100%;
+      }
+
+      .inside #footer {
+        grid-area: footer;
+        bottom: 0;
+        font-size: 1em;
+        grid-row: 3/4;
+       
+      }
+
+      .inside #map-container,
+      .inside #restaurant-container,
+      .inside #favorite-container,
+      .inside #comments,
+      .inside #reviews-container,
+      .inside #map,
+      .inside #footer{
+        width: 100%;
+        margin: 0;
+        font-size: 1em;
+      }
+
+      .box {
+        width:100%;
+      }
+      .inside #map-container {
+        background: blue none repeat scroll 0 0;
+        position: absolute;
+        height: 41%;
+        right: 0;
+        top: 132px;
+      }
+      .inside #reviews-container,
+      .inside #favorite-container,
+      .inside #restaurant-container {
+        border-bottom: 1px solid #d9d9d9;
+        border-top: 1px solid #fff;
+        padding: 50px 40px 30px;
+      }
+
+      .inside #restaurant-container {
+          padding: 310px 40px 20px 30px;
+      }
+
+      .inside #reviews-container {
+          margin: 0;
+      }
+      #breadcrumb {
+        padding: 10px 40px 16px;
+        list-style: none;
+        background-color: #eee;
+        font-size: 17px;
+        margin: 0;
+      }
+      .inside #map {
+        background-color: #ccc;
+      }
+      .inside #restaurant-name {
+        color: #f18200;
+        font-family: Arial, sans-serif;
+        font-size: 20pt;
+        font-weight: 200;
+        letter-spacing: 0;
+        margin: 25px 0 30px;
+        text-transform: uppercase;
+        line-height: 1.1;
+      }
+      .inside #favorite-container {
+        padding: 30px 40px 30px;
+        margin: 0;
+        font-size: 1em;
+      }
+
+      .inside #comments {
+       
+        border-bottom: 1px solid #d9d9d9;
+        border-top: 1px solid #fff;
+        padding: 5px 10px 15px;
+        margin: 0;
+        height: 450px;
+      }
+
+        
+      fieldset {
+        padding: 1em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 5px;
+        height: 400px;
+        width: 100%;
+        margin-right:0;
+        margin-left:0;
+      }
+      .title {
+        margin-left: 0;
+      }
+
+    .filter-options h2 {
+      display: none;
+      width: 110;
+    }
+}
+
+
+
+

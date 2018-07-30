@@ -169,17 +169,61 @@ getParameterByName = (name, url) => {
 /**
  *  Add form
  */
-
+  function getServerData(url,options) {
+  return fetch(urlsReviews, opts).then(response => {
+    if (!response.ok) {
+      throw Error(response.statusText);
+    }
+    return response.json();
+  });
+}
     
    
   const formEl = document.getElementById("formcomment");
   //const submitBtn = document.querySelector('button');
   const urlsReviews = 'http://localhost:1337/reviews/';
 
+// get favorite and unfavorite data
+function getIsFavorite() {
+
+   //favorite
+    let isFavorite = false;
+
+
+     let thumbUP = document.getElementById("thumb-up");
+      let thumbDown = document.getElementById("thumb-down");
+
+     const favoritelst = document.getElementsByName("favorite");
+     
+       
+   
+   
+     var i;
+     for (i = 0; i < favoritelst.length; i++) {
+         if (favoritelst[i].checked) {
+             //aRate = favoritelst[i].value;
+         }
+     }
+
+     if (thumbUP.checked) {
+       isFavorite = true;
+     } 
+     
+          
+     //const urlsReviews = 'http://localhost:1337/reviews/';
+     const isFavoriteData = {
+        "restaurant_id": Number(restaurantID),
+        "isFavorite":isFavorite
+     };
+     return isFavoriteData;
+ 
+}
+
   function getData(){
      // get a reviewer name.
      const commentorName = document.getElementById("username").value;
-     const aComment = document.getElementById("comments").value;
+     const aComment = document.querySelecto("textarea").value;
+    
    
 
      const starList = document.getElementsByName("star");
@@ -221,50 +265,53 @@ getParameterByName = (name, url) => {
           headers: headers,
           body: body
         }; 
-
+/*
     fetch(urlsReviews, opts)
         .then(res => res.json())
         .then(data =>  console.log("Data added to the server",data))
         .catch(error => console.log('Erro', error.message));
+    */
+    getServerData(urlsReviews, opts)
+            .then(data =>  console.log("Favorite added to the server",data))
+            .catch(error => console.log('Erro', error.message));
 
     document.forms["formcomment"].reset(); 
     
  } 
 // Save favorites
-const btn = document.querySelector('input');
-
-btn.addEventListener('click', saveBtn);
-
-// get favorite and unfavorite data
-function getIsFavorite() {
-
-   //favorite
-    let isFavorite = false;
-
-
-     let thumbUP = document.getElementById("thumbUP");
-      let thumbDown = document.getElementById("thumbDown");
-     if (thumbUP.checked) {
-       isFavorite = true;
-     } 
-     if (thumbDown.checked) {
-       isFavorite = false;
-     } 
-          
-     //const urlsReviews = 'http://localhost:1337/reviews/';
-     const isFavoriteData = {
-        "restaurant_id": Number(restaurantID),
-        "isFavorite":isFavorite
-     };
-     return isFavoriteData;
- 
-}
+//const btn = document.getElementById('save-favorite');
+const btn = document.querySelector('input[type= "button"]');
 
 function saveBtn() {
 
-}
+       let jsonData = getIsFavorite();
+        //console.log("New comment posted :", jsonData);
+      
+         
+       
+        const headers = new Headers({'Content-Type': 'application/json'});
+        const body = JSON.stringify(jsonData);
+        let opts = {
+          method: 'POST',
+          mode: 'no-cors',
+          cache: "no-cache",
+          credentials: 'same-origin',
+          headers: headers,
+          body: body
+        };
+        getServerData(urlsReviews, opts)
+            .then(data =>  console.log("Favorite added to the server",data))
+            .catch(error => console.log('Erro', error.message));
 
-  // ...to take over the submit event
+}
+// Add as favorite  restaurant to the server 
+btn.addEventListener('click',function (event) {
+    event.preventDefault();
+    saveBtn();
+  });
+
+
+  // Add data to the server.
   formEl.addEventListener('submit', function (event) {
     event.preventDefault();
     postData();
