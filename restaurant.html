@@ -18,18 +18,17 @@
   
 </head>
 
-<body class="inside">
+<body class="inside" >
   <!-- Beginning header -->
   <header id = "header">
     <!-- Beginning nav -->
-    <nav>
+    <nav >
       <h1><a href="/">Restaurant Reviews</a></h1>
        <!-- Beginning breadcrumb -->
     <ul id="breadcrumb" aria-label = "breadcrumb">
       <li><a href="/">Home</a></li>
     </ul>
-    <!-- End breadcrumb -->
-      
+    <!-- End breadcrumb --> 
     </nav>
    
     <!-- End nav -->
@@ -39,13 +38,13 @@
   <!-- Beginning main -->
   <main id="maincontent" class = "restaurnt-content">
     <!-- Beginning map -->
-    <section id="map-container" tableindex = "-1">
+    <section id="map-container" tableindex = "-1" class = "box">
       <div id="map" aria-label="map" role="application"></div>
       
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
-    <section id="restaurant-container">
+    <section id="restaurant-container" class = "box">
       <h1 id="restaurant-name"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
@@ -54,24 +53,41 @@
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
-    <section id="reviews-container">
+    <section id="reviews-container" class = "box">
       <ul id="reviews-list"></ul>
     </section>
-      <!-- End reviews -->
-    <section id = "comment">
+    <section id="favorite-container" class = "box">
+        <div class="favarite-items" style="display: flex; justify-content: space-between; align-items: center; width: 270px; ">
+               
+             <span style="font-size: 20px;"> Is it your favorite?</span> 
+
+            <div id="myfavorite" aria-label="Favorite">
+              <input type="radio"  name="favorite"id="thumb-up">                 
+              <label for="thumb-up" class="is-favorite" > &#128402; </label>
+
+              <input type="radio"  name="favorite" id="thumb-down" required>
+              <label for="thumb-down" class="is-favorite" > &#128403; </label>                            
+            </div>
+            <input type="button" value="Save" id="save-favorite">
+      </div>
+      
+
+    </section>
+    <!-- End reviews -->
+    <section id = "comments" class = "box">
 
       <form role="form" action="#" method="post" id ="formcomment"> 
         <fieldset >
             <legend>Write a reviews</legend>
               
-            <label >Username:
-              <input type="text" name="username" placeholder="username" size="30" maxlength="100" required="required" class = "title" id= "username">
-            </label>
-            <label class = "isfavorite"> Favorite:
-              <input type="checkbox" name="favorite"  size="5" maxlength="3" id= "favorite">
-            </label>
-                
-            <div id = "stars" aria-label="Star Rating">
+            
+            <div>
+              <label for="username" >Username:</label>
+            <input type="text" name="username" placeholder="username" size="30" maxlength="100" required="required" class = "title" id= "username" >
+ 
+            </div>
+                         
+            <div id = "stars" aria-label="Star Rating" style="width:100px; font-size: 20px;">
                       
                   <input type="radio" id="stars-5" name="star" value="5"/>
                   <label title="5 stars" for="stars-5"></label>
@@ -79,7 +95,7 @@
                   <input type="radio" id="stars-4" name="star" value="4"/>
                   <label title="4 stars" for="stars-4"></label>
                   
-                  <input type="radio" id="stars-3" name="star" value="3"/>
+                  <input type="radio" id="stars-3" name="star" value="3">
                   <label title="3 stars" for="stars-3"></label>
                   
                   <input type="radio" id="stars-2" name="star" value="2"/>
@@ -90,10 +106,12 @@
           
             </div>
             
-                <label class = "comments">Comments: <br>
-                      <textarea rows="6" cols="60" name="comment" id = "comments" placeholder="Write a comment here!"></textarea>
-                </label>
-                <button> Submit Comment</button>
+                
+            <div>
+              <label for = "commentsText" class = "comments">Comments: </label>
+              <textarea rows="6" cols="60" name="comment" id = "commentsText" placeholder="Write a comment here!"></textarea>
+              <button> Submit Comment</button>
+            </div>
         
       </fieldset>
     </form>
@@ -110,7 +128,7 @@
  
   <!-- Beginning scripts -->
   <!-- Database helpers -->
-  <script type="text/javascript" src="js/dbhelper.js"></script>
+ <script type="text/javascript" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/lib/idb.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>

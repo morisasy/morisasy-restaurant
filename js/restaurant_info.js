@@ -115,6 +115,14 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   });
   container.appendChild(ul);
 }
+ 
+ function createNode(el){
+   return document.createElement(el);
+ }
+
+ function append(parent, el) {
+   return parent.appendChild(el);
+ }
 
 /**
  * Create review HTML and add it to the webpage.
@@ -170,7 +178,7 @@ getParameterByName = (name, url) => {
  *  Add form
  */
   function getServerData(url,options) {
-  return fetch(urlsReviews, opts).then(response => {
+  return fetch(url,options).then(response => {
     if (!response.ok) {
       throw Error(response.statusText);
     }
@@ -213,16 +221,16 @@ function getIsFavorite() {
      //const urlsReviews = 'http://localhost:1337/reviews/';
      const isFavoriteData = {
         "restaurant_id": Number(restaurantID),
-        "isFavorite":isFavorite
+        "is_favorite":isFavorite
      };
      return isFavoriteData;
  
-}
+  }
 
   function getData(){
      // get a reviewer name.
      const commentorName = document.getElementById("username").value;
-     const aComment = document.querySelecto("textarea").value;
+     const aComment = document.querySelector("textarea").value;
     
    
 
@@ -252,7 +260,7 @@ function getIsFavorite() {
    
        let jsonData = getData();
         //console.log("New comment posted :", jsonData);
-      
+        //DBHelper.saveData(jsonData);
          
        
         const headers = new Headers({'Content-Type': 'application/json'});
@@ -271,8 +279,10 @@ function getIsFavorite() {
         .then(data =>  console.log("Data added to the server",data))
         .catch(error => console.log('Erro', error.message));
     */
+    //getServerData(urlsReviews, opts)
+    //DBHelper.serverPostGetPut(urlsReviews, opts)
     getServerData(urlsReviews, opts)
-            .then(data =>  console.log("Favorite added to the server",data))
+            .then(data =>  console.log("Reviews added to the server",data))
             .catch(error => console.log('Erro', error.message));
 
     document.forms["formcomment"].reset(); 
@@ -283,23 +293,26 @@ function getIsFavorite() {
 const btn = document.querySelector('input[type= "button"]');
 
 function saveBtn() {
+      
+        //const urlsReviews = 'http://localhost:1337/restaurants/2'
 
        let jsonData = getIsFavorite();
-        //console.log("New comment posted :", jsonData);
-      
+        console.log("New comment posted :", jsonData);
+        const urlsReviews = `http://localhost:1337/restaurants/${jsonData.restaurant_id}`;  
          
        
         const headers = new Headers({'Content-Type': 'application/json'});
         const body = JSON.stringify(jsonData);
         let opts = {
-          method: 'POST',
-          mode: 'no-cors',
+          method: 'Put',
+          mode: 'cors',
           cache: "no-cache",
           credentials: 'same-origin',
           headers: headers,
           body: body
         };
-        getServerData(urlsReviews, opts)
+       // DBHelper.serverPostGetPut(urlsReviews, opts)
+            getServerData(urlsReviews, opts)
             .then(data =>  console.log("Favorite added to the server",data))
             .catch(error => console.log('Erro', error.message));
 

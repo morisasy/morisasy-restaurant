@@ -38,18 +38,7 @@ static createIndexedDB() {
     if (!upgradeDb.objectStoreNames.contains('restaurants')) {
       const store = upgradeDb.createObjectStore(DBHelper.dbStoreName, {keyPath: 'id'});
        store.createIndex('name', 'name', {unique: true});
-      //const store = upgradeDb.createObjectStore(dbStoreName);
-      /**
-      switch(upgradeDb.oldVersion) {
-          case 0:
-            const store = upgradeDb.createObjectStore(DBHelper.dbStoreName, {keyPath: 'id'});
-            
-          case 1:
-          const storeByName = upgradeDb.createObjectStore(DBHelper.dbStoreName);
-          storeByName.createIndex('name', 'name', {unique: true});
-         }
-         */
-            
+             
     }
   }); 
 }
@@ -88,6 +77,13 @@ static createIndexedDB() {
        })
      });
   }
+  static setLocalStorage(offlineData) {
+    localStorage.setItem('offlinePost', offlineData);
+  }
+
+  static getOfflinePost() {
+  return localStorage.getItem('offlinePost');
+  }
 
   static getLocalData(db_promise) {
 
@@ -102,14 +98,69 @@ static createIndexedDB() {
         });
   }
 
+  /**
+ *  isEqual method compare local data vs data from saver.
+  *
+ */
+
+  static isEqual(offlineData, onlineData){
+    if (offlineData.key().length == onlineData.key().lengt){
+       return  true
+    }
+
+    return false;
+  }
+
+
+  static updateData(){
+
+  }
+
+
+  /**
+ *  Add  or update data to the server
+  *
+ */
+  static serverPostGetPut(url,options) {
+      return fetch(url, options).then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      });
+  }
+
+
+  static postUpdateServer(networkData){
+    const urls = 'http://localhost:1337/reviews/';
+    let localData = getOfflinePost();
+    const headers = new Headers({'Content-Type': 'application/json'});
+        const body = JSON.stringify(jsonData);
+        let opts = {
+          method: 'POST',
+          mode: 'no-cors',
+          cache: "no-cache",
+          credentials: 'same-origin',
+          headers: headers,
+          body: localData
+        }; 
+     let localData = DBHelper.getOfflinePost();
+     if(localData) {
+           DBHelper.serverPostGetPut(urls,opts);
+      }
+  }
+
+
   // Fetch all restaurants.
   
   static fetchRestaurants(callback) {
+   //const db_promise = DBHelper.createIndexedDB();
     const URL = DBHelper.DATABASE_URL;
     const opt = {
     credentials: 'include'
     } 
-    fetch(URL,opt)
+   //DBHelper.serverPostGetPut(URL,opt)
+   fetch(URL, opt)
     .then(response => response.json())
     .then(json => {
       const restaurants = json;
@@ -123,7 +174,7 @@ static createIndexedDB() {
       .then(YOUR_CREATE_HTML_FUNCTION)
       */
       const db_promise = DBHelper.createIndexedDB();
-      const restaurantsDB = getLocalData(db_promise);
+      const restaurantsDB = DBHelper.getLocalData(db_promise);
         restaurantsDB.then((restaurants) => {
           //console.log('Restaurants by id:', restaurants);
           callback(null, restaurants);
@@ -131,27 +182,10 @@ static createIndexedDB() {
       console.log('There has been a problem with your fetch operation: ', error.message);
       //callback(error, null);
     });
+
+
   }
 
-  /**
-   * 
-   Fetch data from local indexdb.
-    static getLocalData() {
-
-    const dbPromise = DBHelper.createIndexedDB();
-    
-    return dbPromise.then((db) => {
-          if (!db) return;
-          const store = DBHelper.getObjectStore(db, DBHelper.dbStoreName, 'readonly');
-
-          return store.getAll();
-        }).then((items) => {
-         // console.log('Restaurants by id:', items);
-        });
-  }
-
-
-   */
   
    
   /**
